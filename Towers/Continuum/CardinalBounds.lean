@@ -37,7 +37,7 @@ Named open surfaces:
   Continuum_CofinBound_OPEN — exact value of cf(2^ℵ₀) (open, Easton-style)
   Gimel_Function_OPEN       — gimel(ℵ₀) = 2^ℵ₀ value is open
 
-BRICKS: 13  (was 10; +3 from cert→genuine upgrades)
+BRICKS: 14  (was 13; +1 Cert_GCH_Beth_Aleph graduated via induction)
 Status: Bounds framework COMPLETE. CH independence → ContinuumHypothesis.lean.
 ================================================================
 -/
@@ -194,9 +194,15 @@ axiom Cert_Aleph_succ_le_pow :
 /-- **Cert axiom**: GCH implies beth = aleph.
     Under GCH, 2^ℵₙ = ℵₙ₊₁, so bethₙ = ℵₙ for all n.
     Ref: Standard ZFC+GCH calculation. -/
-axiom Cert_GCH_Beth_Aleph :
+theorem Cert_GCH_Beth_Aleph :
     (∀ n : ℕ, 2 ^ Cardinal.aleph n = Cardinal.aleph (n + 1)) →
-    ∀ n : ℕ, BethNumber n = Cardinal.aleph n
+    ∀ n : ℕ, BethNumber n = Cardinal.aleph n := by
+  intro hGCH n
+  induction n with
+  | zero => simp [BethNumber, ← Cardinal.aleph_zero]
+  | succ n ih =>
+    simp only [BethNumber]
+    rw [ih, hGCH n]
 
 -- ================================================================
 -- §4  König consequence: aleph₁ ≤ continuum
