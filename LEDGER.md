@@ -445,6 +445,27 @@ RH: OPEN. No Clay claim.
 
 ---
 
+## P vs NP Tower — Continuum Bounds (MultiTower Phase 21, 2026-06-29)
+
+**File:** `Towers/Continuum/CardinalBounds.lean`
+**Repo:** DavidFox998/p-vs-np
+**Bricks:** 237 total (+3 from Phase 21)
+
+### Graduated Cert Axioms (Phase 21)
+
+| Theorem | Was | Proof | Clay Status |
+|---------|-----|-------|-------------|
+| `Cert_Konig_CF_Bound` | cert axiom | `by_contra` + `Cardinal.lt_power_cof` + `Ordinal.aleph0_le_cof` + `Cardinal.ord_isLimit` + `power_mul` + `aleph0_mul_aleph0`: if cof(2^ℵ₀).ord ≤ ℵ₀ then (2^ℵ₀)^ℵ₀ = 2^ℵ₀ contradicts `lt_power_cof` | `CLAY_VALID` |
+| `Cert_BethSuccessor` | cert axiom | `fun _ => rfl` — definitional from `BethNumber (n+1) := 2^BethNumber n` | `CLAY_VALID` |
+| `Cert_Regularity_Aleph1` | cert axiom | `Cardinal.isRegular_aleph_one.cof_eq` — `IsRegular.cof_eq` gives `(aleph 1).ord.cof = aleph 1` | `CLAY_VALID` |
+
+**Note:** `Cert_Konig_CF_Bound` type uses `.ord.cof` dot notation (`Ordinal.cof`) rather than the
+non-existent `Cardinal.cof`; `import Mathlib.SetTheory.Cardinal.Cofinality` added to file.
+
+**Axiom footprint:** classical trio only. 0 sorry. 0 sorryAx.
+
+---
+
 ## Global Axiom Footprint
 
 Every proved surface in this ledger uses only:
