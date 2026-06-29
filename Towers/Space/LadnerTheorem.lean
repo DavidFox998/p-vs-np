@@ -126,16 +126,17 @@ theorem padL_in_P_of_PeqNP (k : ℕ) {L : Language} (hL : InP L)
 theorem karpReduces_refl (L : Language) : KarpReduces L L :=
   ⟨id, fun _ => 1, polyBound_const 1, fun _ => Iff.rfl⟩
 
-/-- **GENUINE ⭐**: KarpReduces is transitive: the composed function witnesses the reduction.
-    The correctness direction (hf ∘ hg) is immediate; poly-bound for composition
-    requires (Tg ∘ Tf) bounded by a polynomial — true since poly ∘ poly is poly,
-    but the bound arithmetic is stated as a cert axiom below. -/
+/-- **GENUINE ⭐**: KarpReduces is transitive: the composed reduction witnesses L₁ ≤_m L₃.
+    Time bound: g(f(n)) + f(n) + 1 is poly-bounded since poly ∘ poly = poly
+    (polyBound_comp). Correctness: w ∈ L₁ ↔ f w ∈ L₂ ↔ g(f w) ∈ L₃. -/
 theorem karpReduces_trans {L₁ L₂ L₃ : Language}
     (h₁₂ : KarpReduces L₁ L₂) (h₂₃ : KarpReduces L₂ L₃) :
     KarpReduces L₁ L₃ := by
-  obtain ⟨f, _Tf, _hTf, hf⟩ := h₁₂
-  obtain ⟨g, _Tg, _hTg, hg⟩ := h₂₃
-  exact ⟨g ∘ f, fun _ => 1, polyBound_const 1, fun w => by rw [hf, hg]⟩
+  obtain ⟨f, Tf, hTf, hf⟩ := h₁₂
+  obtain ⟨g, Tg, hTg, hg⟩ := h₂₃
+  exact ⟨g ∘ f, fun n => Tg (Tf n) + Tf n + 1,
+    polyBound_succ (polyBound_add (polyBound_comp hTf hTg) hTf),
+    fun w => (hf w).trans (hg (f w))⟩
 
 -- ================================================================
 -- §3  Cert axiom: NP closed under padding
