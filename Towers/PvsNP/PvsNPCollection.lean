@@ -20,10 +20,12 @@ Phase summary:
   Phase 9 (CountingComplexity.lean)  — 6 proved + 5 cert axioms (#P, PP, Toda)
   Phase 10 (FaginFragment.lean)      — 5 proved + 2 cert axioms (3-COLOR ∃SO witness)
   Phase 11 (ImmermanVardi.lean)      — 6 proved + 1 cert axiom (LFP Knaster-Tarski)
+  Phase 12 (PHStructure.lean)        — 8 proved + 0 cert axioms (PH structural)
+  [KarpLipton upgrade]               — Cert_KL_CollapseInduction graduated (cert→genuine)
   Certificate (PvsNPCertificate)     — PNP_CLAY_CERTIFICATE
 
-Total proved bricks: ~72 PvsNP (classical trio, 0 sorry)
-Total cert axioms: ~35
+Total proved bricks: ~81 PvsNP (classical trio, 0 sorry)
+Total cert axioms: ~34
 
 Clay status: P ≠ NP LOCKED OPEN. No Clay claim.
 ================================================================
@@ -40,6 +42,7 @@ import Towers.PvsNP.KarpLipton
 import Towers.PvsNP.CountingComplexity
 import Towers.PvsNP.FaginFragment
 import Towers.PvsNP.ImmermanVardi
+import Towers.PvsNP.PHStructure
 
 open TheoremaAureum.Towers.PvsNP.Complexity
 open TheoremaAureum.Towers.PvsNP.Hierarchy
