@@ -32,6 +32,7 @@ import Towers.PvsNP.Barriers
 import Towers.PvsNP.ClayStatement
 import Towers.PvsNP.PolynomialHierarchy
 import Towers.PvsNP.DescriptiveComplexity
+import Towers.PvsNP.KarpLipton
 
 open TheoremaAureum.Towers.PvsNP.Complexity
 open TheoremaAureum.Towers.PvsNP.Hierarchy
