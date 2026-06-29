@@ -188,11 +188,13 @@ theorem cantor_cardinal (κ : Cardinal) : κ < 2 ^ κ :=
     This is the cardinal analogue of Cantor's power-set theorem. -/
 theorem Cert_Cantor_Cardinal : ∀ κ : Cardinal, κ < 2 ^ κ := Cardinal.cantor
 
-/-- **Cert axiom**: Monotonicity of the continuum function.
+/-- **GENUINE** (Phase 12 graduation): Monotonicity of the continuum function.
     If κ ≤ λ then 2^κ ≤ 2^λ.
-    Ref: Standard cardinal arithmetic. -/
-axiom Cert_Continuum_Monotone :
-    ∀ κ λ : Cardinal, κ ≤ λ → 2 ^ κ ≤ 2 ^ λ
+    Proof: `Cardinal.power_le_power_left` with base 2 ≠ 0 and exponent inequality.
+    Ref: Standard cardinal arithmetic — Mathlib v4.12.0. -/
+theorem Cert_Continuum_Monotone :
+    ∀ κ λ : Cardinal, κ ≤ λ → 2 ^ κ ≤ 2 ^ λ :=
+  fun _ _ h => Cardinal.power_le_power_left two_ne_zero h
 
 -- ================================================================
 -- §6  Named open/independent surfaces summary
