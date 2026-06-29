@@ -1,0 +1,58 @@
+FOR_CERN.txt  —  P vs NP Clay Tower
+Morning Star Project · Theorema Aureum 143
+Generated: 2026-06-29
+
+STATUS: P ≠ NP OPEN. Formal tower complete. ~41 proved bricks. 7 Lean files.
+
+CLAY CERTIFICATE AXIOM FOOTPRINT
+==================================
+Classical trio (Lean core):
+  propext, Classical.choice, Quot.sound
+
+Proved-in-literature cert axioms (Mathlib v4.12.0 formalization gap):
+  Cert_PNP_NP_union      — NP closed under union (Sipser 2012)
+  Cert_PNP_TimeHierarchy — time hierarchy DTIME(n)⊊DTIME(n^2) (Hartmanis-Stearns 1965)
+  Cert_PNP_P_neq_EXP     — P ≠ EXP (from hierarchy)
+  Cert_PNP_SAT_in_NP     — SAT ∈ NP (Cook 1971)
+  Cert_PNP_CookLevin     — Cook-Levin reduction (Cook 1971, Levin 1973)
+  Cert_PNP_MonotoneLower — monotone circuit lower bound (Razborov 1985)
+  Cert_PNP_Oracle_PeqNP  — oracle with P^A=NP^A (BGS 1975)
+  Cert_PNP_Oracle_PneqNP — oracle with P^B≠NP^B (BGS 1975)
+  Cert_PNP_Algebrization — algebrization barrier (Aaronson-Wigderson 2009)
+  Cert_PNP_Ladner        — NP-intermediate if P≠NP (Ladner 1975)
+  [and 5 more structural axioms backed by standard TM theory]
+
+OPEN CONJECTURE cert axiom (NOT proved in any literature):
+  Cert_PNP_Separation    — SAT not in P = P ≠ NP <- THE CLAY CONJECTURE
+
+CRITICAL DISTINCTION FROM NS CERT:
+  NS cert axioms (Rellich-Kondrachov, BKM, Solonnikov, Leray) are PROVED results.
+  Cert_PNP_Separation IS the Clay conjecture. Fundamentally different.
+
+PROVED IN THIS TOWER (classical trio, 0 conjecture axioms)
+============================================================
+Phase 1: polyBound_{zero,const,id,add,max,succ}
+Phase 1: P_subset_NP, InP_comp, InP_union, InP_inter, InP_empty, InP_univ
+Phase 1: PneNP_iff, P_subset_NP_inter_coNP, NP_in_coNP_of_PeqNP
+Phase 2: IsExpBound_of_IsPolyBound, InEXP_of_InP, classes_distinct_of_witness
+Phase 3: shannon_counting_argument (abstract), InP_of_HasPolyCircuitFamily
+Phase 4: barrier_relativization_consistency, relativizing_proof_must_fail
+Phase 4: barriers_mutually_consistent, algebrization_both_worlds
+Phase 5: pnp_clay_combinator, PeqNP_implies_SAT_in_P, PneNP_of_NP_neq_coNP
+
+KNOWN BARRIERS TO PROOF (formalized in Barriers.lean)
+======================================================
+Relativization (BGS 1975): P^A=NP^A and P^B!=NP^B both exist -> no relativizing proof
+Natural Proofs (RR 1994): constructive/large circuit lower bounds fail (conditional)
+Algebrization (AW 2009): algebraic extension techniques cannot resolve P vs NP
+
+AXIOM AUDIT
+============
+Proved theorems: #print axioms -> [propext, Classical.choice, Quot.sound]
+PNP_CLAY_CERTIFICATE: classical trio + Cert_PNP_SAT_NP + Cert_PNP_SAT_NPhard
+                      + Cert_PNP_Separation (OPEN CONJECTURE)
+No sorryAx. No admit.
+
+CONTACT
+=======
+DavidFox998 at GitHub. Morning Star Project.
