@@ -131,9 +131,16 @@ axiom Cert_AH_PostTheorem :
     The arithmetical hierarchy is strict: Σₙ ⊊ Σₙ₊₁ for all n.
     The halting problem is Σ₁-complete but not in Σ₀ = Δ₁.
     Instances of the halting problem at each level witness strictness.
-    TM gap: complete problems at each level require TM oracle theory. -/
-axiom Cert_AH_Strict :
-    ∃ L : Language, InSigma1 L ∧ ¬InSigma0 L
+    TM gap: complete problems at each level require TM oracle theory.
+    Proof: HaltingSet witnesses Σ₁ \ Σ₀: Cert_Halt_RE gives InSigma1 HaltingSet;
+    ¬InSigma0 HaltingSet by contraposition — decidable → co-RE contradicts
+    Cert_Halt_Not_coRE via AH_sigma0_closed_compl + Cert_AH_Sigma0_subset_Sigma1. -/
+theorem Cert_AH_Strict :
+    ∃ L : Language, InSigma1 L ∧ ¬InSigma0 L := by
+  refine ⟨HaltingSet, Cert_Halt_RE, ?_⟩
+  intro h_dec
+  exact Cert_Halt_Not_coRE
+    (Cert_AH_Sigma0_subset_Sigma1 _ (AH_sigma0_closed_compl h_dec))
 
 /-!
 ## §4 — Named open surfaces
