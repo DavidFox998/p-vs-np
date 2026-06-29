@@ -25,6 +25,7 @@ Status: Framework COMPLETE. CH INDEPENDENT. No Clay claim. No prize.
 
 import Towers.Continuum.CardinalBounds
 import Towers.Continuum.ContinuumHypothesis
+import Towers.Continuum.KonigTheorem
 
 open TheoremaAureum.Towers.Continuum
 open TheoremaAureum.Towers.Continuum.CH
