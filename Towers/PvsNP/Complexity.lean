@@ -248,11 +248,49 @@ theorem PneNP_of_NP_neq_coNP
 -- Backed by: standard nondeterministic TM arguments.
 -- ================================================================
 
-/-- **Structural cert axiom**: NP is closed under union.
-    Ref: Any standard complexity textbook (Sipser 2012, Th. 7.25).
-    Mathlib gap: NTM closure under union absent from v4.12.0. -/
-axiom Cert_PNP_NP_union :
-    ∀ L1 L2 : Language, InNP L1 → InNP L2 → InNP (L1 ∪ L2)
+/-- **GENUINE** (Phase 12 graduation): NP is closed under union.
+    Proof: tagged-union verifier with an inline length guard.
+      `V_union w (false :: c) = if c.length ≤ T1 |w| then V1 w c else false`
+      `V_union w (true  :: c) = if c.length ≤ T2 |w| then V2 w c else false`
+    The guard is baked into the verifier body so the backward direction can
+    read the bound directly from the if-branch condition (avoids needing an
+    external certificate-length constraint to conclude L1/L2 membership).
+    Time bound: max(T1, T2) + 1 (tag bit) — closed by `polyBound_succ ∘ polyBound_max`.
+    Ref: Sipser 2012, Th. 7.25. -/
+theorem Cert_PNP_NP_union :
+    ∀ L1 L2 : Language, InNP L1 → InNP L2 → InNP (L1 ∪ L2) := by
+  intro L1 L2 h1 h2
+  obtain ⟨V1, T1, hT1, hiff1⟩ := h1
+  obtain ⟨V2, T2, hT2, hiff2⟩ := h2
+  refine ⟨fun w cert =>
+      match cert with
+      | []          => false
+      | (false :: c) => decide (c.length ≤ T1 w.length) && V1 w c
+      | (true  :: c) => decide (c.length ≤ T2 w.length) && V2 w c,
+    fun n => max (T1 n) (T2 n) + 1,
+    polyBound_succ (polyBound_max hT1 hT2), fun w => ?_⟩
+  simp only [Set.mem_union]
+  constructor
+  · rintro (hw1 | hw2)
+    · obtain ⟨c, hlen, hVc⟩ := (hiff1 w).mp hw1
+      exact ⟨false :: c,
+             by simp only [List.length_cons];
+                exact Nat.succ_le_succ (hlen.trans (Nat.le_max_left _ _)),
+             by simp only [Bool.and_eq_true, decide_eq_true_iff]; exact ⟨hlen, hVc⟩⟩
+    · obtain ⟨c, hlen, hVc⟩ := (hiff2 w).mp hw2
+      exact ⟨true :: c,
+             by simp only [List.length_cons];
+                exact Nat.succ_le_succ (hlen.trans (Nat.le_max_right _ _)),
+             by simp only [Bool.and_eq_true, decide_eq_true_iff]; exact ⟨hlen, hVc⟩⟩
+  · rintro ⟨cert, _, hcert⟩
+    match cert with
+    | []          => simp at hcert
+    | (false :: c) =>
+      simp only [Bool.and_eq_true, decide_eq_true_iff] at hcert
+      exact Or.inl ((hiff1 w).mpr ⟨c, hcert.1, hcert.2⟩)
+    | (true :: c) =>
+      simp only [Bool.and_eq_true, decide_eq_true_iff] at hcert
+      exact Or.inr ((hiff2 w).mpr ⟨c, hcert.1, hcert.2⟩)
 
 /-- **Structural cert axiom**: NP is closed under intersection.
     Ref: Sipser 2012. Mathlib gap: NTM closure absent. -/
