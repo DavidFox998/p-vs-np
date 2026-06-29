@@ -18,6 +18,7 @@ Phase summary:
   Phase 7 (DescriptiveComplexity)    — 9 proved + 6 descriptive cert axioms
   Phase 8 (KarpLipton.lean)          — 8 proved + 2 cert axioms
   Phase 9 (CountingComplexity.lean)  — 6 proved + 5 cert axioms (#P, PP, Toda)
+  Phase 10 (FaginFragment.lean)      — 5 proved + 2 cert axioms (3-COLOR ∃SO witness)
   Certificate (PvsNPCertificate)     — PNP_CLAY_CERTIFICATE
 
 Total proved bricks: ~66 PvsNP (classical trio, 0 sorry)
@@ -36,6 +37,7 @@ import Towers.PvsNP.PolynomialHierarchy
 import Towers.PvsNP.DescriptiveComplexity
 import Towers.PvsNP.KarpLipton
 import Towers.PvsNP.CountingComplexity
+import Towers.PvsNP.FaginFragment
 
 open TheoremaAureum.Towers.PvsNP.Complexity
 open TheoremaAureum.Towers.PvsNP.Hierarchy
