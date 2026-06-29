@@ -3,6 +3,10 @@ propext, Classical.choice, Quot.sound
 + Cert_PNP_SAT_in_NP,
 + Cert_PNP_CookLevin, Cert_PNP_MonotoneLower,
 + Cert_PNP_Oracle_PeqNP, Cert_PNP_Oracle_PneqNP,
-+ Cert_PNP_Algebrization, Cert_PNP_Ladner,
++ Cert_PNP_Ladner,
 + Cert_PNP_SAT_NP, Cert_PNP_SAT_NPhard,
 + Cert_PNP_Separation (OPEN CONJECTURE)
+NOTE: Cert_PNP_Algebrization graduated → theorem (Phase 17)
+NOTE: Cert_PNP_NaturalProofs graduated → theorem (Phase 17)
+NOTE: Cert_NP_subset_PP graduated → theorem (Phase 17)
+NOTE: Cert_PP_complement graduated → theorem (Phase 17)
