@@ -13,5 +13,14 @@ lean_lib Towers where
              `Towers.PvsNP.CircuitComplexity,
              `Towers.PvsNP.Barriers,
              `Towers.PvsNP.ClayStatement,
+             `Towers.PvsNP.PolynomialHierarchy,
+             `Towers.PvsNP.DescriptiveComplexity,
              `Towers.PvsNP.PvsNPCollection,
-             `Towers.PvsNP.PvsNPCertificate]
+             `Towers.PvsNP.PvsNPCertificate,
+             `Towers.Continuum.CardinalBounds,
+             `Towers.Continuum.ContinuumHypothesis,
+             `Towers.Continuum.ContinuumCollection,
+             `Towers.ZFC.IndependenceFramework,
+             `Towers.ZFC.ZFCCollection,
+             `Towers.ZProtocol.ZProtocolFramework,
+             `Towers.ZProtocol.ZProtocolCollection]
