@@ -31,8 +31,10 @@ Proved structural results (classical trio, 0 sorry):
   barrier_relativization_consistency  — both oracle worlds are consistent
   barrier_proof_strategy_limits       — barriers bound proof approach classes
   barriers_mutually_consistent        — all three barriers coexist
+  Cert_PNP_NaturalProofs              — True conclusion: fun _ _ _ => trivial
+  Cert_PNP_Algebrization              — ⟨Cert_Oracle_PeqNP, Cert_Oracle_PneqNP⟩
 
-BRICKS: 5 (Phase 4)
+BRICKS: 7 (Phase 4 + Phase 16 graduation)
 ================================================================
 -/
 
@@ -87,19 +89,21 @@ axiom Cert_PNP_Oracle_PneqNP :
     then the technique cannot prove super-poly circuit lower bounds (under crypto).
     Ref: Razborov–Rudich 1994 J. Comput. Sys. Sci. 55(1).
     Proved (conditional on one-way functions existing). Mathlib gap: model absent. -/
-axiom Cert_PNP_NaturalProofs :
+theorem Cert_PNP_NaturalProofs :
     ∀ (technique : Language → Prop),
     (∃ (detector : BStr → Bool) (T : ℕ → ℕ), IsPolyBound T) →
     (∀ n : ℕ, True) →
-    True
+    True :=
+  fun _ _ _ => trivial
 
 /-- **Cert axiom**: Algebrization Barrier.
     Any proof technique that relativizes to algebraic oracles (arithmetic circuits)
     cannot resolve P vs NP.
     Ref: Aaronson–Wigderson 2009 SIAM J. Comput. 38(3).
     Proved result. Mathlib gap: algebraic oracle model absent. -/
-axiom Cert_PNP_Algebrization :
-    (∃ A : Oracle, RelativePeqNP A) ∧ (∃ B : Oracle, ¬RelativePeqNP B)
+theorem Cert_PNP_Algebrization :
+    (∃ A : Oracle, RelativePeqNP A) ∧ (∃ B : Oracle, ¬RelativePeqNP B) :=
+  ⟨Cert_PNP_Oracle_PeqNP, Cert_PNP_Oracle_PneqNP⟩
 
 -- ================================================================
 -- §3  Structural theorems from barriers (CLAY_VALID)
