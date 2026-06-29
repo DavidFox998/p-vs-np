@@ -203,24 +203,24 @@ theorem m8k_ftl_numerical : ZP_FTL_Numerical_Pass := by
 /-- **Cert axiom**: The speed of light is exactly 299792458 m/s.
     This is the BIPM 2019 definition — exact, not a measurement.
     Ref: BIPM 2019 SI definition; Resolution 1 of the 17th CGPM (1983). -/
-axiom Cert_ZP_LightSpeedExact :
-    c_SI = 299792458
+theorem Cert_ZP_LightSpeedExact :
+    c_SI = 299792458 := rfl
 
 /-- **Cert axiom**: The M8K protocol stack certification.
     The values Delta_tau = 7.647 ns, L_proper = 7.2968 m, v_g = 3.183c
     are derived from the M8K Python certification with SHA-provenance.
     Ref: M8K FTL Morningstar Technology Stack, Battle Plan v1.6 (2026-05-21).
     These are certified computational values, not mathematical proofs. -/
-axiom Cert_ZP_M8K_Stack :
+theorem Cert_ZP_M8K_Stack :
     m8k_v_g_over_c = 3.183 ∧
     m8k_Delta_tau = 7.647 * (10 : ℝ)^(-(9 : ℤ)) ∧
-    m8k_L_proper = 7.2968
+    m8k_L_proper = 7.2968 := ⟨rfl, rfl, rfl⟩
 
 /-- **Cert axiom**: The theoretical causal time T_t = L/c for M8K.
     The causal transit time is the proper length divided by c.
     Physical content: no information can travel faster than c in flat space. -/
-axiom Cert_ZP_CausalTime :
-    M8K_Measurement.t_t.value = m8k_L_proper / c_SI
+theorem Cert_ZP_CausalTime :
+    M8K_Measurement.t_t.value = m8k_L_proper / c_SI := rfl
 
 -- ================================================================
 -- §7  Named open/conjecture surfaces
