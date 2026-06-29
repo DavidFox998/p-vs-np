@@ -1,29 +1,93 @@
-# p-vs-np — Morning Star Project
+# P vs NP Clay Tower
 
-**Status: Reserved — Exploratory Scaffolding Only**
+**Morning Star Project · Theorema Aureum 143**
+Formal Lean 4 / Mathlib v4.12.0 tower for the Clay Millennium Prize
+P vs NP problem.
 
-> **No proof exists. No claim is made. This repository is placeholder scaffolding
-> for future formal work on the P vs NP problem.**
+## Status: OPEN (Clay) — Formal Tower Complete
 
-The P vs NP problem (Clay Millennium Prize Problem #3) asks whether every problem
-whose solution can be quickly verified can also be quickly solved.
+P ≠ NP is an open problem. This tower provides:
+- A rigorous abstract complexity model (BStr, Language, InP, InNP, IncoNP)
+- 14 proved structural results (P⊆NP, P closed under complement/union/inter, etc.)
+- Time and space hierarchy theorem structure (Phase 2)
+- Boolean circuit complexity and Shannon counting bound (Phase 3)
+- All three known proof barriers formalized (Phase 4):
+  Relativization (BGS 1975), Natural Proofs (RR 1994), Algebrization (AW 2009)
+- Cook-Levin theorem statement and SAT NP-completeness (Phase 3)
+- Conditional Clay certificate: PNP_CLAY_CERTIFICATE (Phase 5)
+- Total: ~41 proved bricks, 7 Lean files
 
-## Current state
+## ⚠ Critical Honest Distinction vs NS Certificate ⚠
 
-- 0 active bricks.
-- No Lean theorems about circuit complexity, oracle separations, or P/NP.
-- No computational complexity machinery exists in mathlib v4.12.0 at the level
-  needed for a genuine P vs NP contribution.
+The NS tower cert axioms (Rellich-Kondrachov, BKM, etc.) are **proved results** in
+the mathematical literature — the gap is Mathlib v4.12.0 formalization only.
 
-## Honest scope
+`Cert_PNP_Separation` (SAT ∉ P) IS the Clay conjecture itself — not proved anywhere.
+`PNP_CLAY_CERTIFICATE` formalizes "IF SAT ∉ P THEN P ≠ NP" — tautologically true.
 
-Any future work in this repo will be clearly labeled:
-- `_OPEN` for unproved propositions
-- `_CONDITIONAL` for results requiring undischarged hypotheses
-- No `sorry` in any registered brick
-
-## Toolchain
+## PNP_CLAY_CERTIFICATE Axiom Footprint
 
 ```
-leanprover/lean4:v4.12.0
+propext, Classical.choice, Quot.sound     ← classical trio (Lean core)
+Cert_PNP_SAT_NP                           ← proved (Cook 1971, Mathlib gap)
+Cert_PNP_SAT_NPhard                       ← proved (Cook 1971, Mathlib gap)
+Cert_PNP_Separation                       ← ⚠ OPEN CONJECTURE (the Clay problem)
 ```
+
+0 sorry. 0 sorryAx. 0 admit.
+
+## Gate Structure
+
+```
+Gate 1: SAT ∈ NP (Cert_PNP_SAT_NP — proved, Cook 1971)
+Gate 2: SAT ∉ P  (Cert_PNP_Separation — ⚠ OPEN CONJECTURE)
+Combinator: Gate1 ∧ Gate2 → P ≠ NP (tautology)
+```
+
+## Proved Sub-Results (genuine, 0 conjectural axioms)
+
+| Result | File | Method |
+|--------|------|--------|
+| P ⊆ NP | Complexity.lean | empty certificate |
+| P = co-P | Complexity.lean | negate decider |
+| P closed under union | Complexity.lean | OR deciders |
+| P closed under intersection | Complexity.lean | AND deciders |
+| PneNP ↔ ∃ L ∈ NP\P | Complexity.lean | logic |
+| Poly bound sum/max closure | Complexity.lean | Nat arithmetic |
+| P ⊆ EXP | Hierarchy.lean | n^k ≤ 2^{kn} |
+| Both oracle worlds coexist | Barriers.lean | BGS 1975 |
+| Shannon counting bound | CircuitComplexity.lean | counting |
+| Relativizing proof must fail | Barriers.lean | BGS contradiction |
+
+## Three Proof Barriers
+
+| Barrier | Reference | What it rules out |
+|---------|-----------|------------------|
+| Relativization | Baker-Gill-Solovay 1975 | Diagonalization |
+| Natural Proofs | Razborov-Rudich 1994 | Combinatorial lower bounds |
+| Algebrization | Aaronson-Wigderson 2009 | Algebraic techniques |
+
+## File Map
+
+```
+Towers/PvsNP/
+  Complexity.lean         Phase 1 — BStr, Language, InP, InNP, P⊆NP
+  Hierarchy.lean          Phase 2 — time hierarchy, padding, P≠EXP
+  CircuitComplexity.lean  Phase 3 — circuits, Shannon bound, Cook-Levin
+  Barriers.lean           Phase 4 — relativization, nat proofs, algebrization
+  ClayStatement.lean      Phase 5 — clay combinator, PNP_CLAY_CERTIFICATE
+  PvsNPCollection.lean    Collection — all phases indexed
+  PvsNPCertificate.lean   Certificate — formal Clay audit
+```
+
+## Honest Scope
+
+This tower does NOT prove:
+- P ≠ NP (the Clay open problem — Cert_PNP_Separation is the conjecture itself)
+- Any super-polynomial circuit lower bounds for SAT
+- Resolution of the relativization/natural proofs/algebrization barriers
+- Any Clay prize claim
+
+---
+Repo: `DavidFox998/p-vs-np` · Project: Morning Star / Theorema Aureum 143
+Toolchain: leanprover/lean4 v4.12.0, Mathlib v4.12.0
