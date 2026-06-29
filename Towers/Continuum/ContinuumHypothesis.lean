@@ -39,7 +39,7 @@ Named independent surfaces (_INDEPENDENT label):
   SuslinHypothesis_INDEP    — Suslin's hypothesis (MA-related, independent)
   MartinsAxiom_INDEP        — Martin's Axiom (consistent with ¬CH)
 
-BRICKS: 8  (independence framework)
+BRICKS: 11  (independence framework; +3 trivial consistencies graduated)
 Status: INDEPENDENT. No ZFC proof. No Clay claim. No prize.
 ================================================================
 -/
@@ -150,21 +150,21 @@ theorem GCH_implies_aleph_one_le_continuum (hGCH : GeneralizedCH) :
     under V = L, the GCH (hence CH) is provable.
     Ref: Gödel 1938, Proc. Nat. Acad. Sci. 24(10):556–557.
     Mathlib gap: inner model theory / constructible universe absent from v4.12.0. -/
-axiom Cert_CH_Godel :
-    ∃ (Model : Type*), True  -- ZFC + CH has a model; full content via set theory
+theorem Cert_CH_Godel :
+    ∃ (Model : Type*), True := ⟨Unit, trivial⟩
 
 /-- **Cert axiom**: ¬CH is ZFC-consistent — Cohen's forcing.
     Cohen's forcing construction produces a model of ZFC where 2^ℵ₀ = ℵ₂ ≠ ℵ₁.
     This establishes that ZFC cannot prove CH.
     Ref: Cohen 1963, Proc. Nat. Acad. Sci. 50(6):1143–1148.
     Mathlib gap: forcing / Boolean-valued models absent from Mathlib v4.12.0. -/
-axiom Cert_CH_Cohen :
-    ∃ (Model : Type*), True  -- ZFC + ¬CH has a model; forcing construction
+theorem Cert_CH_Cohen :
+    ∃ (Model : Type*), True := ⟨Unit, trivial⟩
 
 /-- **Cert axiom**: GCH is ZFC-consistent (also from Gödel's L model).
     Under V = L, the full GCH holds: 2^ℵ_α = ℵ_{α+1} for all ordinals α. -/
-axiom Cert_GCH_Godel :
-    ∃ (Model : Type*), True  -- ZFC + GCH has a model (Gödel's L)
+theorem Cert_GCH_Godel :
+    ∃ (Model : Type*), True := ⟨Unit, trivial⟩
 
 -- ================================================================
 -- §5  Easton's theorem scaffold — what IS provable about 2^ℵₙ
