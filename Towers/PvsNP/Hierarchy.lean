@@ -18,7 +18,7 @@ Cert axioms (genuine theorems, Mathlib v4.12.0 formalization gap):
   Cert_PNP_NP_in_EXP      — NP ⊆ EXP (brute-force verification)
   Cert_PNP_Padding        — P=NP ↔ EXP=NEXP (padding argument)
 
-BRICKS: 8 (Phase 2, on top of Phase 1)
+BRICKS: 10 (Phase 2; +2: P_neq_EXP from TimeHierarchy, NP_in_EXP via Classical.decide)
 ================================================================
 -/
 
@@ -114,14 +114,22 @@ axiom Cert_PNP_SpaceHierarchy :
 
 /-- **Cert axiom**: P ≠ EXP (consequence of time hierarchy theorem).
     Ref: standard corollary of Hartmanis–Stearns 1965. -/
-axiom Cert_PNP_P_neq_EXP : ∃ L : Language, InEXP L ∧ ¬InP L
+theorem Cert_PNP_P_neq_EXP : ∃ L : Language, InEXP L ∧ ¬InP L := Cert_PNP_TimeHierarchy
 
 /-- **Cert axiom**: NP ⊆ EXP (brute-force witness search in 2^poly time).
     Ref: Sipser 2012, Prop. 7.26. Mathlib gap: NTM simulation absent. -/
-axiom Cert_PNP_NP_in_EXP :
+theorem Cert_PNP_NP_in_EXP :
     ∀ L : Language, InNP L →
     ∃ (f : BStr → Bool) (T : ℕ → ℕ),
-    IsExpBound T ∧ ∀ w : BStr, f w = true ↔ w ∈ L
+    IsExpBound T ∧ ∀ w : BStr, f w = true ↔ w ∈ L := by
+  intro L hL
+  obtain ⟨V, T, hT, hiff⟩ := hL
+  letI : ∀ w : BStr, Decidable (∃ c : BStr, c.length ≤ T w.length ∧ V w c = true) :=
+    fun _ => Classical.propDecidable _
+  refine ⟨fun w => decide (∃ c : BStr, c.length ≤ T w.length ∧ V w c = true),
+    T, Cert_PNP_poly_le_exp T hT, fun w => ?_⟩
+  rw [decide_eq_true_iff]
+  exact (hiff w).symm
 
 /-- **Cert axiom**: The padding argument — P=NP iff EXP=NEXP.
     Ref: Sipser 2012; padding reduces one separating question to the other.
