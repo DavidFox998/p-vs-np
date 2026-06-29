@@ -9,15 +9,17 @@ Imports and re-exports all P vs NP tower phases.
 This is the single entry point for the full tower.
 
 Phase summary:
-  Phase 1 (Complexity.lean)       — 14 proved + 2 structural cert axioms
-  Phase 2 (Hierarchy.lean)        — 8 proved + 5 hierarchy cert axioms
-  Phase 3 (CircuitComplexity.lean) — 6 proved + 4 circuit cert axioms
-  Phase 4 (Barriers.lean)          — 5 proved + 3 barrier cert axioms
-  Phase 5 (ClayStatement.lean)    — 8 proved + 4 clay cert axioms
-  Certificate (PvsNPCertificate)  — PNP_CLAY_CERTIFICATE
+  Phase 1 (Complexity.lean)          — 14 proved + 2 structural cert axioms
+  Phase 2 (Hierarchy.lean)           — 8 proved + 5 hierarchy cert axioms
+  Phase 3 (CircuitComplexity.lean)   — 6 proved + 4 circuit cert axioms
+  Phase 4 (Barriers.lean)            — 5 proved + 3 barrier cert axioms
+  Phase 5 (ClayStatement.lean)       — 8 proved + 4 clay cert axioms
+  Phase 6 (PolynomialHierarchy.lean) — 10 proved + 5 PH cert axioms
+  Phase 7 (DescriptiveComplexity)    — 9 proved + 6 descriptive cert axioms
+  Certificate (PvsNPCertificate)     — PNP_CLAY_CERTIFICATE
 
-Total proved bricks: ~41 (classical trio, 0 sorry)
-Total cert axioms: 18 (14 proved-in-literature + 4 open conjectures)
+Total proved bricks: ~60 (classical trio, 0 sorry)
+Total cert axioms: 29 (24 proved-in-literature + 5 open conjectures)
 
 Clay status: P ≠ NP LOCKED OPEN. No Clay claim.
 ================================================================
@@ -28,6 +30,8 @@ import Towers.PvsNP.Hierarchy
 import Towers.PvsNP.CircuitComplexity
 import Towers.PvsNP.Barriers
 import Towers.PvsNP.ClayStatement
+import Towers.PvsNP.PolynomialHierarchy
+import Towers.PvsNP.DescriptiveComplexity
 
 open TheoremaAureum.Towers.PvsNP.Complexity
 open TheoremaAureum.Towers.PvsNP.Hierarchy
