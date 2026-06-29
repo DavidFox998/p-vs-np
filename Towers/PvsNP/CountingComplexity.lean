@@ -19,19 +19,21 @@ Key genuine theorems (classical trio, 0 sorry):
   inPP_empty           — ∅ ∈ PP (no witnesses accept)
   P_subset_P_SharpP    — P ⊆ P^#P (ignore the oracle)
 
+Key genuine theorems (cont.):
+  Cert_SharpP_addClosed  — #P closed under pointwise addition (tagged-union verifier)
+
 Cert axioms (proved in literature, Mathlib gap — NTM path counting):
   Cert_SharpSAT_complete — #SAT is #P-complete (Valiant 1979)
   Cert_NP_subset_PP      — NP ⊆ PP (Gill 1977)
   Cert_PP_complement     — PP = co-PP (Gill 1977)
   Cert_Toda              — PH ⊆ P^#P (Toda 1991)
-  Cert_SharpP_addClosed  — #P closed under pointwise addition
 
 Named open surfaces:
   PP_vs_P_OPEN           — PP ≠ P (expected; open)
   SharpP_vs_FP_OPEN      — #P ≠ FP (expected; open)
   Toda_strict_OPEN       — Is PH ⊊ P^#P?
 
-BRICKS: 6  (genuine; all cert axioms are Mathlib gaps not sorry)
+BRICKS: 7  (genuine; all cert axioms are Mathlib gaps not sorry)
 Clay status: P ≠ NP LOCKED OPEN. No Clay claim.
 ================================================================
 -/
@@ -187,12 +189,50 @@ axiom Cert_PP_complement :
 axiom Cert_Toda :
     ∀ L : Language, InPH L → InP_SharpP L
 
-/-- **Cert axiom**: #P is closed under pointwise addition.
+/-- **CLAY_VALID ⭐ GENUINE**: #P is closed under pointwise addition.
     If f, g ∈ #P, then (fun w => f w + g w) ∈ #P.
-    The combined verifier uses a tag bit to route between f's and g's verifiers.
-    Ref: Standard; follows from the definition of #P via multi-valued NTMs. -/
-axiom Cert_SharpP_addClosed :
-    ∀ f g : CountFn, InSharpP f → InSharpP g → InSharpP (fun w => f w + g w)
+
+    Proof: tagged-union verifier pattern (identical to NP union closure).
+    Key observation: 0 < f w + g w ↔ 0 < f w ∨ 0 < g w (ℕ arithmetic, by omega).
+    This reduces #P addition to a union-of-support problem, handled by a tag bit:
+      V_sum w (false :: c) = decide(|c| ≤ Tf|w|) && Vf w c   (f's witness)
+      V_sum w (true  :: c) = decide(|c| ≤ Tg|w|) && Vg w c   (g's witness)
+    Bound: max(Tf, Tg) + 1 (polyBound_succ ∘ polyBound_max).
+    Ref: Standard; follows directly from the ∃-witness definition of #P support. -/
+theorem Cert_SharpP_addClosed :
+    ∀ f g : CountFn, InSharpP f → InSharpP g → InSharpP (fun w => f w + g w) := by
+  intro f g hf hg
+  obtain ⟨Vf, Tf, hTf, hiff_f⟩ := hf
+  obtain ⟨Vg, Tg, hTg, hiff_g⟩ := hg
+  refine ⟨fun w cert =>
+      match cert with
+      | []          => false
+      | false :: c  => decide (c.length ≤ Tf w.length) && Vf w c
+      | true  :: c  => decide (c.length ≤ Tg w.length) && Vg w c,
+    fun n => max (Tf n) (Tg n) + 1,
+    polyBound_succ (polyBound_max hTf hTg), fun w => ?_⟩
+  -- Reduce to: (0 < f w ∨ 0 < g w) ↔ ∃ cert, tag-verifier accepts
+  rw [show (0 : ℕ) < f w + g w ↔ 0 < f w ∨ 0 < g w from by omega]
+  rw [hiff_f w, hiff_g w]
+  constructor
+  · rintro (⟨c, hlen, hVc⟩ | ⟨c, hlen, hVc⟩)
+    · exact ⟨false :: c,
+        by simp only [List.length_cons];
+           exact Nat.succ_le_succ (hlen.trans (Nat.le_max_left _ _)),
+        by simp only [Bool.and_eq_true, decide_eq_true_iff]; exact ⟨hlen, hVc⟩⟩
+    · exact ⟨true :: c,
+        by simp only [List.length_cons];
+           exact Nat.succ_le_succ (hlen.trans (Nat.le_max_right _ _)),
+        by simp only [Bool.and_eq_true, decide_eq_true_iff]; exact ⟨hlen, hVc⟩⟩
+  · rintro ⟨cert, _, hcert⟩
+    match cert with
+    | []          => simp at hcert
+    | false :: c  =>
+      simp only [Bool.and_eq_true, decide_eq_true_iff] at hcert
+      exact Or.inl ⟨c, hcert.1, hcert.2⟩
+    | true  :: c  =>
+      simp only [Bool.and_eq_true, decide_eq_true_iff] at hcert
+      exact Or.inr ⟨c, hcert.1, hcert.2⟩
 
 -- ================================================================
 -- §4  Named open surfaces
@@ -232,6 +272,6 @@ structure CountingComplexityChain where
   PH_in_PShP : ∀ L, InPH L → InP_SharpP L := Cert_Toda
 
 /-- Number of genuine bricks in this file -/
-def counting_brick_count : ℕ := 6
+def counting_brick_count : ℕ := 7
 
 end TheoremaAureum.Towers.PvsNP.Counting
