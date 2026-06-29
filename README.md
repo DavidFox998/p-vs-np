@@ -15,7 +15,7 @@ P ≠ NP is an open problem. This tower provides:
   Relativization (BGS 1975), Natural Proofs (RR 1994), Algebrization (AW 2009)
 - Cook-Levin theorem statement and SAT NP-completeness (Phase 3)
 - Conditional Clay certificate: PNP_CLAY_CERTIFICATE (Phase 5)
-- Total: ~41 proved bricks, 7 Lean files
+- Total: ~77 proved bricks, 18 Lean files across 4 sub-towers
 
 ## ⚠ Critical Honest Distinction vs NS Certificate ⚠
 
