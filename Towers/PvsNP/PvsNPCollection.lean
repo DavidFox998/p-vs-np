@@ -14,12 +14,14 @@ Phase summary:
   Phase 3 (CircuitComplexity.lean)   — 6 proved + 4 circuit cert axioms
   Phase 4 (Barriers.lean)            — 5 proved + 3 barrier cert axioms
   Phase 5 (ClayStatement.lean)       — 8 proved + 4 clay cert axioms
-  Phase 6 (PolynomialHierarchy.lean) — 10 proved + 5 PH cert axioms
+  Phase 6 (PolynomialHierarchy.lean) — 10 proved + 5 PH cert axioms (+2 cert→genuine Phase3)
   Phase 7 (DescriptiveComplexity)    — 9 proved + 6 descriptive cert axioms
+  Phase 8 (KarpLipton.lean)          — 8 proved + 2 cert axioms
+  Phase 9 (CountingComplexity.lean)  — 6 proved + 5 cert axioms (#P, PP, Toda)
   Certificate (PvsNPCertificate)     — PNP_CLAY_CERTIFICATE
 
-Total proved bricks: ~60 (classical trio, 0 sorry)
-Total cert axioms: 29 (24 proved-in-literature + 5 open conjectures)
+Total proved bricks: ~66 PvsNP (classical trio, 0 sorry)
+Total cert axioms: ~34
 
 Clay status: P ≠ NP LOCKED OPEN. No Clay claim.
 ================================================================
@@ -33,6 +35,7 @@ import Towers.PvsNP.ClayStatement
 import Towers.PvsNP.PolynomialHierarchy
 import Towers.PvsNP.DescriptiveComplexity
 import Towers.PvsNP.KarpLipton
+import Towers.PvsNP.CountingComplexity
 
 open TheoremaAureum.Towers.PvsNP.Complexity
 open TheoremaAureum.Towers.PvsNP.Hierarchy
