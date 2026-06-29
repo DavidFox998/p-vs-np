@@ -18,7 +18,8 @@ Cert axioms (genuine theorems, Mathlib v4.12.0 formalization gap):
   Cert_PNP_NP_in_EXP      — NP ⊆ EXP (brute-force verification)
   Cert_PNP_Padding        — P=NP ↔ EXP=NEXP (padding argument)
 
-BRICKS: 10 (Phase 2; +2: P_neq_EXP from TimeHierarchy, NP_in_EXP via Classical.decide)
+BRICKS: 11 (Phase 2; +2: P_neq_EXP from TimeHierarchy, NP_in_EXP via Classical.decide;
+           +1: Cert_PNP_poly_le_exp — n^k ≤ (2^n)^k = 2^(kn) via Nat.lt_two_pow + pow_mul)
 ================================================================
 -/
 
@@ -38,11 +39,23 @@ namespace TheoremaAureum.Towers.PvsNP.Hierarchy
 -- §1  Exponential time (uses IsExpBound from Complexity.lean)
 -- ================================================================
 
-/-- **Cert axiom**: Every poly-time function is also exp-time (n^k ≤ 2^{kn}).
-    Mathematical backing: n^k ≤ (2^n)^k = 2^{kn} by induction.
-    Mathlib gap: `Nat.lt_two_pow_self` naming varies across versions. -/
-axiom Cert_PNP_poly_le_exp :
-    ∀ (T : ℕ → ℕ), IsPolyBound T → IsExpBound T
+/-- **CLAY_VALID ⭐ GENUINE** (was cert axiom): Every poly-time function is also exp-time.
+    Proof: Given T n ≤ c·nᵏ + c, take same c, k for exp bound.
+    Key: n^k ≤ (2^n)^k = 2^(n·k) = 2^(k·n).
+    Step 1: n ≤ 2^n by Nat.lt_two_pow (Nat.Defs:630).
+    Step 2: Nat.pow_le_pow_left lifts to n^k ≤ (2^n)^k.
+    Step 3: pow_mul 2 n k : 2^(n·k) = (2^n)^k. -/
+theorem Cert_PNP_poly_le_exp :
+    ∀ (T : ℕ → ℕ), IsPolyBound T → IsExpBound T := by
+  intro T ⟨c, k, hT⟩
+  refine ⟨c, k, fun n => ?_⟩
+  calc T n ≤ c * n ^ k + c := hT n
+    _ ≤ c * 2 ^ (k * n) + c := by
+        gcongr
+        calc n ^ k ≤ (2 ^ n) ^ k :=
+              Nat.pow_le_pow_left (Nat.le_of_lt (Nat.lt_two_pow n)) k
+          _ = 2 ^ (n * k) := (pow_mul 2 n k).symm
+          _ = 2 ^ (k * n) := by rw [Nat.mul_comm]
 
 /-- **CLAY_VALID**: InP ⊆ InEXP (P ⊆ EXP, via poly ≤ exp bound) -/
 theorem InEXP_of_InP {L : Language} (h : InP L) : InEXP L := by
