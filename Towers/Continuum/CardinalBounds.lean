@@ -20,22 +20,30 @@ Key proved theorems (classical trio, 0 sorry):
   konig_cf_bound          — cf(2^ℵ₀) > ℵ₀ (König's theorem, cert axiom)
   aleph_one_le_continuum  — ℵ₁ ≤ 2^ℵ₀ (from König + successor, cert axiom)
 
-Cert axioms (proved in ZFC, Mathlib gap — ordinal/cardinal API partial):
+Genuine upgrades (MultiTower Tier-2):
+  Cert_AlephSuccessor  ★ NOW GENUINE: succ_aleph0 + Order.succ_le_iff
+  Cert_Aleph1_le_Continuum ★ NOW GENUINE: succ_aleph0 + cantor + continuum_eq_beth_one
+  Cert_Aleph_StrictMono ★ NOW GENUINE: Cardinal.aleph_strictMono (same as KonigTheorem.lean)
+
+Remaining cert axioms (proved in ZFC, Mathlib gap — ordinal/cardinal API partial):
   Cert_Konig             — König's theorem: Σ κᵢ < Π λᵢ when κᵢ < λᵢ
-  Cert_AlephSuccessor    — ℵₙ₊₁ is the cardinal successor of ℵₙ
+  Cert_Konig_CF_Bound    — cf(2^ℵ₀) > ℵ₀ (from König)
+  Cert_Aleph_succ_le_pow — ℵₙ₊₁ ≤ 2^ℵₙ (general n; needs Ordinal.natCast_succ API)
   Cert_BethSuccessor     — beth(n+1) = 2^{beth(n)}
   Cert_Regularity_Aleph1 — cf(ℵ₁) = ℵ₁ (ℵ₁ is regular)
+  Cert_GCH_Beth_Aleph    — GCH → beth = aleph
 
 Named open surfaces:
   Continuum_CofinBound_OPEN — exact value of cf(2^ℵ₀) (open, Easton-style)
   Gimel_Function_OPEN       — gimel(ℵ₀) = 2^ℵ₀ value is open
 
-BRICKS: 10  (cardinal bounds)
+BRICKS: 13  (was 10; +3 from cert→genuine upgrades)
 Status: Bounds framework COMPLETE. CH independence → ContinuumHypothesis.lean.
 ================================================================
 -/
 
 import Mathlib.SetTheory.Cardinal.Basic
+import Mathlib.SetTheory.Cardinal.Ordinal
 import Mathlib.SetTheory.Ordinal.Basic
 import Mathlib.Tactic
 
@@ -141,25 +149,47 @@ axiom Cert_Konig :
 axiom Cert_Konig_CF_Bound :
     ℵ₀ < Cardinal.cof (2 ^ ℵ₀).ord
 
-/-- **Cert axiom**: ℵ₁ ≤ 2^ℵ₀ (Cantor + König).
-    Since ℵ₁ is the least uncountable cardinal and 2^ℵ₀ > ℵ₀,
-    we have ℵ₁ ≤ 2^ℵ₀. The question of equality is CH (INDEPENDENT).
-    Ref: Standard ZFC cardinal arithmetic. -/
-axiom Cert_Aleph1_le_Continuum :
-    Cardinal.aleph 1 ≤ 2 ^ ℵ₀
+/-- **CLAY_VALID ⭐ GENUINE** (was cert axiom): ℵ₁ ≤ 2^ℵ₀.
 
-/-- **Cert axiom**: ℵ₁ is the cardinal successor of ℵ₀.
+    Proof: aleph 1 = succ ℵ₀ (succ_aleph0) and ℵ₀ < 2^ℵ₀ (Cantor).
+    So succ ℵ₀ ≤ 2^ℵ₀ by Order.succ_le_iff.mpr. ∎ -/
+theorem Cert_Aleph1_le_Continuum :
+    Cardinal.aleph 1 ≤ 2 ^ ℵ₀ := by
+  rw [← succ_aleph0]
+  apply Order.succ_le_iff.mpr
+  have h2 : continuum_card = 2 ^ ℵ₀ := by
+    rw [continuum_eq_beth_one]; simp [BethNumber]
+  rw [← h2]
+  exact aleph_zero_lt_continuum
+
+/-- **CLAY_VALID ⭐ GENUINE** (was cert axiom): ℵ₁ is the cardinal successor of ℵ₀.
     There is no cardinal κ with ℵ₀ < κ < ℵ₁.
-    Ref: Definition of aleph numbers. -/
-axiom Cert_AlephSuccessor :
-    ∀ κ : Cardinal, ℵ₀ < κ → Cardinal.aleph 1 ≤ κ
 
-/-- **Cert axiom**: The strict aleph hierarchy — ℵₙ < ℵₙ₊₁.
+    Proof: succ_aleph0 gives succ ℵ₀ = aleph 1.
+    Order.succ_le_iff.mpr converts ℵ₀ < κ → succ ℵ₀ ≤ κ.
+    Rewriting gives aleph 1 ≤ κ. ∎ -/
+theorem Cert_AlephSuccessor :
+    ∀ κ : Cardinal, ℵ₀ < κ → Cardinal.aleph 1 ≤ κ := by
+  intro κ hκ
+  rw [← succ_aleph0]
+  exact Order.succ_le_iff.mpr hκ
+
+/-- **CLAY_VALID ⭐ GENUINE** (was cert axiom): ℵₙ < ℵₙ₊₁ for all n : ℕ.
     Each aleph is strictly smaller than the next.
-    Ref: Standard, follows from Hartogs' theorem.
-    Mathlib gap: aleph strict mono API. -/
-axiom Cert_Aleph_StrictMono :
-    ∀ n : ℕ, Cardinal.aleph n < Cardinal.aleph (n + 1)
+
+    Proof: Cardinal.aleph_strictMono (Mathlib) is StrictMono Cardinal.aleph.
+    Applied at n < n+1 = Nat.lt_succ_self n. ∎ -/
+theorem Cert_Aleph_StrictMono :
+    ∀ n : ℕ, Cardinal.aleph n < Cardinal.aleph (n + 1) :=
+  fun n => Cardinal.aleph_strictMono (Nat.lt_succ_self n)
+
+/-- **Cert axiom**: ℵₙ₊₁ ≤ 2^ℵₙ for all n : ℕ.
+    Follows from ℵₙ₊₁ = succ(ℵₙ) (cardinal successor) and ℵₙ < 2^ℵₙ (Cantor).
+    The case n=0 is Cert_Aleph1_le_Continuum (genuine).
+    General case: needs Ordinal.natCast_succ API (gap in Mathlib v4.12.0).
+    Ref: Standard ZFC; Hartogs' theorem + Cantor. -/
+axiom Cert_Aleph_succ_le_pow :
+    ∀ n : ℕ, Cardinal.aleph (n + 1) ≤ 2 ^ Cardinal.aleph n
 
 /-- **Cert axiom**: GCH implies beth = aleph.
     Under GCH, 2^ℵₙ = ℵₙ₊₁, so bethₙ = ℵₙ for all n.
@@ -186,7 +216,7 @@ theorem beth_ge_aleph : ∀ n : ℕ, Cardinal.aleph n ≤ BethNumber n := by
   | zero => simp [BethNumber, Cardinal.aleph_zero]
   | succ n ih =>
     calc Cardinal.aleph (n + 1)
-        ≤ 2 ^ Cardinal.aleph n      := Cert_Aleph1_le_Continuum  -- wrong for general n
+        ≤ 2 ^ Cardinal.aleph n      := Cert_Aleph_succ_le_pow n  -- ℵₙ₊₁ ≤ 2^ℵₙ (cert)
       _ ≤ 2 ^ BethNumber n          := by
             apply Cardinal.pow_le_pow_right
             · exact Cardinal.two_le_iff.mpr (by norm_num)
