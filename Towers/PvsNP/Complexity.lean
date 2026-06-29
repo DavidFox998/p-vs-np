@@ -26,7 +26,7 @@ Key proved theorems (classical trio, 0 sorry, 0 axiom beyond classical):
 
 Structural cert axioms (backed by any standard TM complexity model):
   Cert_PNP_NP_union      — NP closed under union
-  Cert_PNP_NP_inter      — NP closed under intersection
+  Cert_PNP_NP_inter      — NP ∩ NP ⊆ NP: split-position verifier + baked-in length guards
 
 BRICKS: 14  (Phase 1)
 Clay status: P ≠ NP OPEN. No Clay claim.
@@ -359,10 +359,68 @@ theorem Cert_PNP_NP_union :
       simp only [Bool.and_eq_true, decide_eq_true_iff] at hcert
       exact Or.inr ((hiff2 w).mpr ⟨c, hcert.1, hcert.2⟩)
 
-/-- **Structural cert axiom**: NP is closed under intersection.
-    Ref: Sipser 2012. Mathlib gap: NTM closure absent. -/
-axiom Cert_PNP_NP_inter :
-    ∀ L1 L2 : Language, InNP L1 → InNP L2 → InNP (L1 ∩ L2)
+/-- **CLAY_VALID ⭐ GENUINE**: NP is closed under intersection.
+
+    **Key technique — split-position verifier with baked-in length guards:**
+    The naive take/drop approach fails because in the backward direction we
+    cannot conclude |cert.drop k| ≤ T2|w| from |cert| ≤ T1|w|+T2|w| alone
+    (k could be 0). Fix: bake both length guards into the verifier's `decide`
+    condition, exactly as the union proof bakes the per-branch length bound
+    into the tag-bit match. The backward direction then reads both bounds
+    directly from the accepting witness.
+
+    Verifier for cert: try every k ∈ [0, T1|w|]; accept iff
+      (i)  k ≤ |cert| ∧ |cert| − k ≤ T2|w|   ← both guards in decide
+      (ii) V1 w (cert.take k) = true
+      (iii)V2 w (cert.drop k) = true
+
+    Forward  (w ∈ L1 ∩ L2): cert = c1 ++ c2, k = |c1|.
+      Guard (i): |c1| ≤ |c1|+|c2| ✓; |c1|+|c2|−|c1| = |c2| ≤ T2|w| ✓.
+      (ii): List.take_left gives cert.take |c1| = c1; V1 accepts ✓.
+      (iii): List.drop_left gives cert.drop |c1| = c2; V2 accepts ✓.
+
+    Backward (verifier accepts): extract the accepting k.
+      cert.take k has length min k |cert| = k ≤ T1|w|; V1 w (cert.take k) = true → w ∈ L1.
+      cert.drop k has length |cert|−k ≤ T2|w| (from guard (i)); V2 accepts → w ∈ L2.
+
+    Bound: T1 + T2 (polyBound_add). Classical trio only; 0 sorry; 0 sorryAx.
+    Ref: Sipser 2012, Th. 7.25. -/
+theorem Cert_PNP_NP_inter :
+    ∀ L1 L2 : Language, InNP L1 → InNP L2 → InNP (L1 ∩ L2) := by
+  intro L1 L2 h1 h2
+  obtain ⟨V1, T1, hT1, hiff1⟩ := h1
+  obtain ⟨V2, T2, hT2, hiff2⟩ := h2
+  refine ⟨fun w cert =>
+      (List.range (T1 w.length + 1)).any fun k =>
+        decide (k ≤ cert.length ∧ cert.length - k ≤ T2 w.length) &&
+        V1 w (cert.take k) &&
+        V2 w (cert.drop k),
+    fun n => T1 n + T2 n,
+    polyBound_add hT1 hT2, fun w => ?_⟩
+  simp only [Set.mem_inter_iff]
+  constructor
+  · -- Forward: cert = c1 ++ c2, split at k = |c1|
+    rintro ⟨hw1, hw2⟩
+    obtain ⟨c1, hlen1, hV1⟩ := (hiff1 w).mp hw1
+    obtain ⟨c2, hlen2, hV2⟩ := (hiff2 w).mp hw2
+    refine ⟨c1 ++ c2, by simp only [List.length_append]; omega, ?_⟩
+    simp only [List.any_eq_true, List.mem_range, Bool.and_eq_true, decide_eq_true_iff]
+    exact ⟨c1.length, by omega,
+      ⟨by simp only [List.length_append]; omega,
+       by simp only [List.length_append]; omega⟩,
+      by rw [List.take_left]; exact hV1,
+      by rw [List.drop_left]; exact hV2⟩
+  · -- Backward: read both length bounds from the baked-in decide guard
+    rintro ⟨cert, _, hcert⟩
+    simp only [List.any_eq_true, List.mem_range, Bool.and_eq_true,
+               decide_eq_true_iff] at hcert
+    obtain ⟨k, hk_lt, ⟨hk_le, hk_drop⟩, hV1, hV2⟩ := hcert
+    exact ⟨(hiff1 w).mpr ⟨cert.take k,
+              by rw [List.length_take]; omega,
+              hV1⟩,
+           (hiff2 w).mpr ⟨cert.drop k,
+              by rw [List.length_drop]; exact hk_drop,
+              hV2⟩⟩
 
 /-- Number of proved bricks in Phase 1 -/
 def pnp_phase1_brick_count : ℕ := 14
