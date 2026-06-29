@@ -37,7 +37,8 @@ Named open surfaces:
   Continuum_CofinBound_OPEN — exact value of cf(2^ℵ₀) (open, Easton-style)
   Gimel_Function_OPEN       — gimel(ℵ₀) = 2^ℵ₀ value is open
 
-BRICKS: 14  (was 13; +1 Cert_GCH_Beth_Aleph graduated via induction)
+BRICKS: 16  (was 14; +2: Cert_Konig via Cardinal.sum_lt_prod, Cert_Aleph_succ_le_pow
+         via Ordinal.add_one_eq_succ + Cardinal.aleph_succ + Order.succ_le_of_lt + cantor)
 Status: Bounds framework COMPLETE. CH independence → ContinuumHypothesis.lean.
 ================================================================
 -/
@@ -131,16 +132,18 @@ theorem continuum_eq_beth_one : continuum_card = BethNumber 1 := by
 -- §3  Cert axioms (ZFC theorems, Mathlib gap)
 -- ================================================================
 
-/-- **Cert axiom**: König's theorem — a fundamental ZFC cardinal bound.
+/-- **CLAY_VALID ⭐ GENUINE** (was cert axiom): König's theorem — a fundamental ZFC cardinal bound.
     If κᵢ < λᵢ for each i in an infinite index set, then
     ∑ᵢ κᵢ < ∏ᵢ λᵢ.
     Key consequence: cf(2^κ) > κ for all infinite κ (in particular cf(2^ℵ₀) > ℵ₀).
     Ref: König 1905; König's theorem in ZFC.
-    Mathlib gap: infinite product/sum cardinal API incomplete in v4.12.0. -/
-axiom Cert_Konig :
-    ∀ (I : Type) (κ λ : I → Cardinal),
-    (∀ i, κ i < λ i) →
-    Cardinal.sum κ < Cardinal.prod λ
+    Proof: Cardinal.sum_lt_prod is Mathlib's König theorem (Basic.lean:1150). -/
+theorem Cert_Konig :
+    ∀ (I : Type) (κ μ : I → Cardinal),
+    (∀ i, κ i < μ i) →
+    Cardinal.sum κ < Cardinal.prod μ := by
+  intro _ κ μ H
+  exact Cardinal.sum_lt_prod κ μ H
 
 /-- **Cert axiom**: König cofinality bound.
     cf(2^ℵ₀) > ℵ₀ — the continuum has uncountable cofinality.
@@ -183,13 +186,18 @@ theorem Cert_Aleph_StrictMono :
     ∀ n : ℕ, Cardinal.aleph n < Cardinal.aleph (n + 1) :=
   fun n => Cardinal.aleph_strictMono (Nat.lt_succ_self n)
 
-/-- **Cert axiom**: ℵₙ₊₁ ≤ 2^ℵₙ for all n : ℕ.
-    Follows from ℵₙ₊₁ = succ(ℵₙ) (cardinal successor) and ℵₙ < 2^ℵₙ (Cantor).
-    The case n=0 is Cert_Aleph1_le_Continuum (genuine).
-    General case: needs Ordinal.natCast_succ API (gap in Mathlib v4.12.0).
-    Ref: Standard ZFC; Hartogs' theorem + Cantor. -/
-axiom Cert_Aleph_succ_le_pow :
-    ∀ n : ℕ, Cardinal.aleph (n + 1) ≤ 2 ^ Cardinal.aleph n
+/-- **CLAY_VALID ⭐ GENUINE** (was cert axiom): ℵₙ₊₁ ≤ 2^ℵₙ for all n : ℕ.
+    Proof: Ordinal.natCast_succ n : (↑(n+1) : Ordinal) = Order.succ ↑n.
+    Then Cardinal.aleph_succ : aleph (succ o) = succ (aleph o).
+    So aleph (n+1) = succ(aleph n). And succ(aleph n) ≤ 2^aleph n
+    by Order.succ_le_of_lt applied to Cardinal.cantor (aleph n). -/
+theorem Cert_Aleph_succ_le_pow :
+    ∀ n : ℕ, Cardinal.aleph (n + 1) ≤ 2 ^ Cardinal.aleph n := by
+  intro n
+  rw [show (↑n : Ordinal) + 1 = Order.succ (↑n : Ordinal) from
+        Ordinal.add_one_eq_succ ↑n,
+      Cardinal.aleph_succ]
+  exact Order.succ_le_of_lt (Cardinal.cantor _)
 
 /-- **Cert axiom**: GCH implies beth = aleph.
     Under GCH, 2^ℵₙ = ℵₙ₊₁, so bethₙ = ℵₙ for all n.
