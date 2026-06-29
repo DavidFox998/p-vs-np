@@ -106,6 +106,73 @@ theorem polyBound_succ {T : ℕ → ℕ} (h : IsPolyBound T) :
     IsPolyBound (fun n => T n + 1) :=
   polyBound_add h (polyBound_const 1)
 
+/-- **CLAY_VALID**: Composition of poly-bounded functions is poly-bounded.
+    If f(n) ≤ cf·n^kf + cf and g(m) ≤ cg·m^kg + cg, then
+    g(f(n)) ≤ [cg·(cf+1)^kg·2^(kf·kg) + cg]·n^(kf·kg) + [cg·(cf+1)^kg·2^(kf·kg) + cg].
+    Proof strategy:
+      kf=0 case: f is constant ≤ 2cf, so g(f n) ≤ cg·(2cf)^kg + cg.
+      kg=0 case: g is constant ≤ 2cg.
+      kf,kg≥1 main case:
+        (1) f n ≤ cf·n^kf + cf = cf·(n^kf+1) ≤ (cf+1)·(n+1)^kf
+            (using n^kf < (n+1)^kf for kf≥1 → n^kf+1 ≤ (n+1)^kf);
+        (2) g(f n) ≤ cg·(cf+1)^kg·(n+1)^(kf·kg) + cg;
+        (3) (n+1)^K ≤ 2^K·n^K + 2^K (trivial at n=0; use n+1≤2n for n≥1). -/
+theorem polyBound_comp {f g : ℕ → ℕ} (hf : IsPolyBound f) (hg : IsPolyBound g) :
+    IsPolyBound (fun n => g (f n)) := by
+  obtain ⟨cf, kf, hf⟩ := hf
+  obtain ⟨cg, kg, hg⟩ := hg
+  rcases Nat.eq_zero_or_pos kf with (rfl | hkf)
+  · refine ⟨cg * (2 * cf) ^ kg + cg, 0, fun n => ?_⟩
+    have hfn : f n ≤ 2 * cf := by have := hf n; simp at this; linarith
+    simp only [pow_zero, mul_one]
+    linarith [Nat.mul_le_mul_left cg (Nat.pow_le_pow_left hfn kg), hg (f n)]
+  · rcases Nat.eq_zero_or_pos kg with (rfl | hkg)
+    · refine ⟨2 * cg, 0, fun n => ?_⟩
+      have := hg (f n); simp at this; simp only [pow_zero, mul_one]; linarith
+    · refine ⟨cg * (cf + 1) ^ kg * 2 ^ (kf * kg) + cg, kf * kg, fun n => ?_⟩
+      have hgfn : g (f n) ≤ cg * (f n) ^ kg + cg := hg (f n)
+      have hfpow : (f n) ^ kg ≤ (cf * n ^ kf + cf) ^ kg :=
+        Nat.pow_le_pow_left (hf n) kg
+      have hbase : cf * n ^ kf + cf ≤ (cf + 1) * (n + 1) ^ kf := by
+        have h1 : n ^ kf + 1 ≤ (n + 1) ^ kf := by
+          have := Nat.pow_lt_pow_left (Nat.lt_succ_self n) hkf.ne'
+          omega
+        calc cf * n ^ kf + cf
+            = cf * (n ^ kf + 1) := by ring
+          _ ≤ (cf + 1) * (n ^ kf + 1) := by
+              apply Nat.mul_le_mul_right; omega
+          _ ≤ (cf + 1) * (n + 1) ^ kf := Nat.mul_le_mul_left _ h1
+      have hexpand : ((cf + 1) * (n + 1) ^ kf) ^ kg =
+          (cf + 1) ^ kg * (n + 1) ^ (kf * kg) := by
+        rw [Nat.mul_pow, ← pow_mul]
+      have hsucc : (n + 1) ^ (kf * kg) ≤
+          2 ^ (kf * kg) * n ^ (kf * kg) + 2 ^ (kf * kg) := by
+        rcases Nat.eq_zero_or_pos n with (rfl | hn)
+        · simp [Nat.zero_pow (Nat.mul_pos hkf hkg).ne']
+          exact Nat.one_le_pow _ _ (by norm_num)
+        · have h2n : n + 1 ≤ 2 * n := by omega
+          have := Nat.pow_le_pow_left h2n (kf * kg)
+          rw [Nat.mul_pow] at this
+          linarith [Nat.zero_le (2 ^ (kf * kg) * n ^ (kf * kg))]
+      calc g (f n)
+          ≤ cg * (f n) ^ kg + cg := hgfn
+        _ ≤ cg * (cf * n ^ kf + cf) ^ kg + cg := by
+            linarith [Nat.mul_le_mul_left cg hfpow]
+        _ ≤ cg * ((cf + 1) * (n + 1) ^ kf) ^ kg + cg := by
+            linarith [Nat.mul_le_mul_left cg (Nat.pow_le_pow_left hbase kg)]
+        _ = cg * ((cf + 1) ^ kg * (n + 1) ^ (kf * kg)) + cg := by
+            rw [hexpand]
+        _ = cg * (cf + 1) ^ kg * (n + 1) ^ (kf * kg) + cg := by ring
+        _ ≤ cg * (cf + 1) ^ kg * (2 ^ (kf * kg) * n ^ (kf * kg) +
+            2 ^ (kf * kg)) + cg := by
+            linarith [Nat.mul_le_mul_left (cg * (cf + 1) ^ kg) hsucc]
+        _ = cg * (cf + 1) ^ kg * 2 ^ (kf * kg) * n ^ (kf * kg) +
+            cg * (cf + 1) ^ kg * 2 ^ (kf * kg) + cg := by ring
+        _ ≤ (cg * (cf + 1) ^ kg * 2 ^ (kf * kg) + cg) * n ^ (kf * kg) +
+            (cg * (cf + 1) ^ kg * 2 ^ (kf * kg) + cg) := by
+            have key : 0 ≤ cg * n ^ (kf * kg) := Nat.zero_le _
+            linarith
+
 -- ================================================================
 -- §3  Complexity classes (abstract model)
 -- ================================================================
