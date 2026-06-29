@@ -19,6 +19,7 @@ lean_lib Towers where
              `Towers.PvsNP.CountingComplexity,
              `Towers.PvsNP.FaginFragment,
              `Towers.PvsNP.ImmermanVardi,
+             `Towers.PvsNP.PHStructure,
              `Towers.PvsNP.PvsNPCollection,
              `Towers.PvsNP.PvsNPCertificate,
              `Towers.Continuum.CardinalBounds,
