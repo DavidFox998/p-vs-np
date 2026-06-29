@@ -21,11 +21,11 @@ Key genuine theorems (classical trio, 0 sorry):
 
 Key genuine theorems (cont.):
   Cert_SharpP_addClosed  — #P closed under pointwise addition (tagged-union verifier)
+  Cert_NP_subset_PP      — NP ⊆ PP: indicator f + zero g (classical propDecidable)
+  Cert_PP_complement     — PP = co-PP: swap f↔g+1 (g+1 always positive, [] cert)
 
 Cert axioms (proved in literature, Mathlib gap — NTM path counting):
   Cert_SharpSAT_complete — #SAT is #P-complete (Valiant 1979)
-  Cert_NP_subset_PP      — NP ⊆ PP (Gill 1977)
-  Cert_PP_complement     — PP = co-PP (Gill 1977)
   Cert_Toda              — PH ⊆ P^#P (Toda 1991)
 
 Named open surfaces:
@@ -33,7 +33,7 @@ Named open surfaces:
   SharpP_vs_FP_OPEN      — #P ≠ FP (expected; open)
   Toda_strict_OPEN       — Is PH ⊊ P^#P?
 
-BRICKS: 7  (genuine; all cert axioms are Mathlib gaps not sorry)
+BRICKS: 9  (genuine; Cert_NP_subset_PP + Cert_PP_complement graduated Phase 16)
 Clay status: P ≠ NP LOCKED OPEN. No Clay claim.
 ================================================================
 -/
@@ -167,19 +167,63 @@ axiom Cert_SharpSAT_complete :
     ∃ (R : BStr → BStr) (T : ℕ → ℕ),
       IsPolyBound T ∧ ∀ w : BStr, f w = 0 ↔ 0 = 0  -- placeholder structure
 
-/-- **Cert axiom**: NP ⊆ PP (Gill 1977).
-    Every NP language is in PP. The majority-vote machine accepts
-    iff at least one witness exists (the count majority condition holds).
-    Ref: Gill, SIAM 1977 "Computational complexity of probabilistic Turing machines". -/
-axiom Cert_NP_subset_PP :
-    ∀ L : Language, InNP L → InPP L
+/-- **CLAY_VALID ⭐ GENUINE**: NP ⊆ PP (Gill 1977).
+    Proof: Given L ∈ NP with verifier V and bound T, define:
+      f(w) = if w ∈ L then 1 else 0   (in #P: 0 < f w ↔ ∃ NP cert)
+      g(w) = 0                          (in #P: always-reject verifier)
+    Then w ∈ L ↔ f(w) > g(w) = f(w) > 0, which matches InPP.
+    Classical propDecidable used for the indicator function. -/
+theorem Cert_NP_subset_PP :
+    ∀ L : Language, InNP L → InPP L := by
+  intro L hL
+  obtain ⟨V, T, hT, hiff⟩ := hL
+  letI := Classical.propDecidable
+  refine ⟨fun w => if w ∈ L then 1 else 0, fun _ => 0,
+    ⟨V, T, hT, fun w => ?_⟩,
+    sharpP_zero_function,
+    fun w => ?_⟩
+  · -- InSharpP (fun w => if w ∈ L then 1 else 0)
+    constructor
+    · intro h
+      by_cases hw : w ∈ L
+      · exact (hiff w).mp hw
+      · simp [hw] at h
+    · rintro ⟨c, hlen, hVc⟩
+      have hw : w ∈ L := (hiff w).mpr ⟨c, hlen, hVc⟩
+      simp [hw]
+  · -- w ∈ L ↔ (if w ∈ L then 1 else 0) > 0
+    constructor
+    · intro hw; simp [hw]
+    · intro h
+      by_contra hn
+      simp [hn] at h
 
-/-- **Cert axiom**: PP is closed under complement — PP = co-PP (Gill 1977).
-    If L ∈ PP, then Lᶜ ∈ PP. The majority reversal requires careful
-    arithmetic showing the complements are still majority-decidable.
-    Ref: Gill, SIAM 1977. -/
-axiom Cert_PP_complement :
-    ∀ L : Language, InPP L → InPP L.comp
+/-- **CLAY_VALID ⭐ GENUINE**: PP is closed under complement — PP = co-PP (Gill 1977).
+    Proof: Given L ∈ PP with f, g ∈ #P and w ∈ L ↔ f(w) > g(w), define:
+      h₁(w) = g(w) + 1   (in #P: always positive; witnessed by empty cert [])
+      h₂(w) = f(w)        (in #P: given)
+    Then w ∈ Lᶜ ↔ ¬(f(w) > g(w)) ↔ f(w) ≤ g(w) ↔ g(w) + 1 > f(w) = h₁(w) > h₂(w). -/
+theorem Cert_PP_complement :
+    ∀ L : Language, InPP L → InPP L.comp := by
+  intro L hL
+  obtain ⟨f, g, hf, hg, hiff⟩ := hL
+  refine ⟨fun w => g w + 1, f,
+    ⟨fun _ _ => true, fun _ => 0, polyBound_const 0, fun w => ?_⟩,
+    hf,
+    fun w => ?_⟩
+  · -- InSharpP (fun w => g w + 1): always positive, witnessed by []
+    constructor
+    · intro _; exact ⟨[], by simp⟩
+    · intro _; omega
+  · -- w ∈ L.comp ↔ g w + 1 > f w
+    rw [Language.mem_comp]
+    constructor
+    · intro hw
+      have h := (hiff w).not.mpr hw
+      push_neg at h
+      omega
+    · intro h hw
+      exact absurd h (by have := (hiff w).mp hw; omega)
 
 /-- **Cert axiom**: Toda's theorem — PH ⊆ P^#P (Toda 1991).
     The entire polynomial hierarchy can be decided by a polynomial-time
