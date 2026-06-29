@@ -182,10 +182,11 @@ axiom Cert_GCH_Godel :
 theorem cantor_cardinal (κ : Cardinal) : κ < 2 ^ κ :=
   Cert_Cantor_Cardinal κ
 
-/-- **Cert axiom**: Cardinal version of Cantor's theorem: κ < 2^κ for all κ.
-    Ref: Standard; follows from Cardinal.cantor applied to the universe.
-    Mathlib gap: direct statement on cardinals may need API bridge. -/
-axiom Cert_Cantor_Cardinal : ∀ κ : Cardinal, κ < 2 ^ κ
+/-- **GENUINE** (Phase 10 graduation): Cardinal version of Cantor's theorem.
+    κ < 2^κ for all cardinals κ.
+    Proof: directly from `Cardinal.cantor` in Mathlib v4.12.0.
+    This is the cardinal analogue of Cantor's power-set theorem. -/
+theorem Cert_Cantor_Cardinal : ∀ κ : Cardinal, κ < 2 ^ κ := Cardinal.cantor
 
 /-- **Cert axiom**: Monotonicity of the continuum function.
     If κ ≤ λ then 2^κ ≤ 2^λ.
@@ -210,6 +211,6 @@ def continuum_independence_summary : String :=
   "Status: INDEPENDENT. No prize. Not a Clay problem."
 
 /-- Number of proved bricks in this file -/
-def ch_brick_count : ℕ := 8
+def ch_brick_count : ℕ := 9  -- +1: Cert_Cantor_Cardinal graduated (Phase 10)
 
 end TheoremaAureum.Towers.Continuum.CH
