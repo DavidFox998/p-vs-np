@@ -16,6 +16,7 @@ lean_lib Towers where
              `Towers.PvsNP.PolynomialHierarchy,
              `Towers.PvsNP.DescriptiveComplexity,
              `Towers.PvsNP.KarpLipton,
+             `Towers.PvsNP.CountingComplexity,
              `Towers.PvsNP.PvsNPCollection,
              `Towers.PvsNP.PvsNPCertificate,
              `Towers.Continuum.CardinalBounds,
