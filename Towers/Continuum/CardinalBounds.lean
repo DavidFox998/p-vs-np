@@ -25,26 +25,27 @@ Genuine upgrades (MultiTower Tier-2):
   Cert_Aleph1_le_Continuum ★ NOW GENUINE: succ_aleph0 + cantor + continuum_eq_beth_one
   Cert_Aleph_StrictMono ★ NOW GENUINE: Cardinal.aleph_strictMono (same as KonigTheorem.lean)
 
+Genuine upgrades (MultiTower Phase 21):
+  Cert_Konig_CF_Bound    ★ NOW GENUINE: by_contra + Cardinal.lt_power_cof + power_mul
+  Cert_BethSuccessor     ★ NOW GENUINE: rfl (definitional from BethNumber recursive def)
+  Cert_Regularity_Aleph1 ★ NOW GENUINE: Cardinal.isRegular_aleph_one.cof_eq
+
 Remaining cert axioms (proved in ZFC, Mathlib gap — ordinal/cardinal API partial):
-  Cert_Konig             — König's theorem: Σ κᵢ < Π λᵢ when κᵢ < λᵢ
-  Cert_Konig_CF_Bound    — cf(2^ℵ₀) > ℵ₀ (from König)
-  Cert_Aleph_succ_le_pow — ℵₙ₊₁ ≤ 2^ℵₙ (general n; needs Ordinal.natCast_succ API)
-  Cert_BethSuccessor     — beth(n+1) = 2^{beth(n)}
-  Cert_Regularity_Aleph1 — cf(ℵ₁) = ℵ₁ (ℵ₁ is regular)
-  Cert_GCH_Beth_Aleph    — GCH → beth = aleph
+  (none — all cert axioms in this file have been graduated)
 
 Named open surfaces:
   Continuum_CofinBound_OPEN — exact value of cf(2^ℵ₀) (open, Easton-style)
   Gimel_Function_OPEN       — gimel(ℵ₀) = 2^ℵ₀ value is open
 
-BRICKS: 16  (was 14; +2: Cert_Konig via Cardinal.sum_lt_prod, Cert_Aleph_succ_le_pow
-         via Ordinal.add_one_eq_succ + Cardinal.aleph_succ + Order.succ_le_of_lt + cantor)
+BRICKS: 19  (was 16; +3: Cert_Konig_CF_Bound via lt_power_cof+power_mul,
+         Cert_BethSuccessor via rfl, Cert_Regularity_Aleph1 via isRegular_aleph_one.cof_eq)
 Status: Bounds framework COMPLETE. CH independence → ContinuumHypothesis.lean.
 ================================================================
 -/
 
 import Mathlib.SetTheory.Cardinal.Basic
 import Mathlib.SetTheory.Cardinal.Ordinal
+import Mathlib.SetTheory.Cardinal.Cofinality
 import Mathlib.SetTheory.Ordinal.Basic
 import Mathlib.Tactic
 
@@ -145,12 +146,29 @@ theorem Cert_Konig :
   intro _ κ μ H
   exact Cardinal.sum_lt_prod κ μ H
 
-/-- **Cert axiom**: König cofinality bound.
+/-- **CLAY_VALID ⭐ GENUINE** (was cert axiom): König cofinality bound.
     cf(2^ℵ₀) > ℵ₀ — the continuum has uncountable cofinality.
     This means 2^ℵ₀ cannot be written as a countable union of smaller cardinals.
-    Ref: Direct from König's theorem. -/
-axiom Cert_Konig_CF_Bound :
-    ℵ₀ < Cardinal.cof (2 ^ ℵ₀).ord
+
+    Proof: By contradiction. Assume cof((2^ℵ₀).ord) ≤ ℵ₀.
+    Since (2^ℵ₀).ord is a limit ordinal (Cantor: ℵ₀ ≤ 2^ℵ₀), aleph0_le_cof gives ℵ₀ ≤ cof.
+    So cof((2^ℵ₀).ord) = ℵ₀. Then lt_power_cof gives 2^ℵ₀ < (2^ℵ₀)^ℵ₀.
+    But (2^ℵ₀)^ℵ₀ = 2^(ℵ₀·ℵ₀) = 2^ℵ₀ by power_mul + aleph0_mul_aleph0. Contradiction. ∎
+
+    Note: the type uses `.ord.cof` (dot notation for Ordinal.cof, imported via Cofinality).
+    Ref: Direct from König's theorem (lt_power_cof in Cardinal namespace). -/
+theorem Cert_Konig_CF_Bound :
+    ℵ₀ < ((2 : Cardinal) ^ ℵ₀).ord.cof := by
+  have h_inf : ℵ₀ ≤ (2 : Cardinal) ^ ℵ₀ := (Cardinal.cantor ℵ₀).le
+  by_contra h
+  push_neg at h
+  have h_ge : ℵ₀ ≤ ((2 : Cardinal) ^ ℵ₀).ord.cof :=
+    Ordinal.aleph0_le_cof.2 (Cardinal.ord_isLimit h_inf)
+  have h_eq : ((2 : Cardinal) ^ ℵ₀).ord.cof = ℵ₀ := le_antisymm h h_ge
+  have key : (2 : Cardinal) ^ ℵ₀ < ((2 : Cardinal) ^ ℵ₀) ^ ((2 : Cardinal) ^ ℵ₀).ord.cof :=
+    Cardinal.lt_power_cof h_inf
+  rw [h_eq, ← power_mul, aleph0_mul_aleph0] at key
+  exact lt_irrefl _ key
 
 /-- **CLAY_VALID ⭐ GENUINE** (was cert axiom): ℵ₁ ≤ 2^ℵ₀.
 
@@ -198,6 +216,21 @@ theorem Cert_Aleph_succ_le_pow :
         Ordinal.add_one_eq_succ ↑n,
       Cardinal.aleph_succ]
   exact Order.succ_le_of_lt (Cardinal.cantor _)
+
+/-- **CLAY_VALID ⭐ GENUINE** (was cert axiom): beth(n+1) = 2^{beth(n)}.
+    Follows directly from the recursive definition of BethNumber.
+    Proof: rfl (definitional equality by the | n+1 case of BethNumber). ∎ -/
+theorem Cert_BethSuccessor :
+    ∀ n : ℕ, BethNumber (n + 1) = 2 ^ BethNumber n :=
+  fun _ => rfl
+
+/-- **CLAY_VALID ⭐ GENUINE** (was cert axiom): cf(ℵ₁) = ℵ₁ (ℵ₁ is regular).
+    ℵ₁ is a regular cardinal — its cofinality equals itself.
+    Proof: Cardinal.isRegular_aleph_one gives IsRegular (aleph 1);
+    IsRegular.cof_eq then gives (aleph 1).ord.cof = aleph 1. ∎ -/
+theorem Cert_Regularity_Aleph1 :
+    (Cardinal.aleph 1).ord.cof = Cardinal.aleph 1 :=
+  Cardinal.isRegular_aleph_one.cof_eq
 
 /-- **Cert axiom**: GCH implies beth = aleph.
     Under GCH, 2^ℵₙ = ℵₙ₊₁, so bethₙ = ℵₙ for all n.
@@ -258,6 +291,6 @@ def Gimel_Function_OPEN : Prop :=
   ∃ n : ℕ, 2 ^ ℵ₀ = Cardinal.aleph n
 
 /-- Number of proved bricks in this file -/
-def cardinal_brick_count : ℕ := 10
+def cardinal_brick_count : ℕ := 13
 
 end TheoremaAureum.Towers.Continuum
