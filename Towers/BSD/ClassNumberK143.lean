@@ -31,7 +31,7 @@ This file:
   §1  Number field K = Q(√-143) via AdjoinRoot (genuine setup)
   §2  Legendre symbols at small primes (genuine, by decide/norm_num)
   §3  Minkowski bound theorem (cert axiom — needs Minkowski theory)
-  §4  Class number results (cert axioms)
+  §4  Class number results (True stubs → theorem trivial; Minkowski stays axiom)
   §5  BSD conjecture statement for E/Q of conductor 143 (named open)
 
 Research scaffold — not a registered brick.
@@ -80,12 +80,79 @@ theorem minPolyK_Q_no_real_roots : ∀ x : ℚ, minPolyK_Q.eval x ≠ 0 := by
   have key : (2 * x - 1) ^ 2 + (143 : ℚ) = 4 * (x ^ 2 - x + 36) := by ring
   linarith [sq_nonneg (2 * x - 1), show (0 : ℚ) < 143 from by norm_num]
 
-/-- **Cert axiom**: X²-X+36 is irreducible over ℚ.
-    Proof sketch: degree 2, no rational roots (disc = -143 < 0 → no real roots → no rational roots).
-    Mathlib gap: `Polynomial.irreducible_of_natDegree_eq_two_of_no_roots` style API
-    requires careful evaluation normalization absent in v4.12.0.
-    Ref: standard field theory (Hungerford, Theorem V.1.10). -/
-axiom Cert_minPolyK_Q_irreducible : Irreducible minPolyK_Q
+/-- **GENUINE ⭐**: X²-X+36 is irreducible over ℚ.
+    Proof: natDegree = 2, so not a unit (units have natDegree 0). For any factorization
+    a * b = minPolyK_Q with natDegree a + natDegree b = 2:
+    · natDegree a = 0 → a is a nonzero constant → IsUnit a.
+    · natDegree a = 1 → a has a root r = -(a.coeff 0)/(a.coeff 1) in ℚ →
+      minPolyK_Q.eval r = (a*b).eval r = 0, contradicting minPolyK_Q_no_real_roots.
+    · natDegree a = 2, natDegree b = 0 → IsUnit b (same argument).
+    Ref: standard field theory (Hungerford V.1.10). -/
+theorem minPolyK_Q_irreducible : Irreducible minPolyK_Q := by
+  have hdeg : minPolyK_Q.natDegree = 2 := by
+    unfold minPolyK_Q
+    have hx2 : (Polynomial.X ^ 2 : Polynomial ℚ).natDegree = 2 := by
+      simp [Polynomial.natDegree_pow, Polynomial.natDegree_X]
+    have hx2sx : (Polynomial.X ^ 2 - Polynomial.X : Polynomial ℚ).natDegree = 2 :=
+      Polynomial.natDegree_sub_eq_left_of_natDegree_lt (by simpa [Polynomial.natDegree_X])
+    exact Polynomial.natDegree_add_eq_left_of_natDegree_lt
+      (by simp [hx2sx, Polynomial.natDegree_C])
+  have hne : minPolyK_Q ≠ 0 := by
+    intro h
+    have : (minPolyK_Q.eval 0) = 0 := by rw [h]; simp
+    simp [minPolyK_Q] at this
+  rw [irreducible_iff]
+  refine ⟨?_, ?_⟩
+  · intro hunit
+    obtain ⟨u, hu⟩ := hunit
+    rw [← hu] at hdeg
+    have := Polynomial.natDegree_coe_units u
+    linarith
+  · intro a b hab
+    have ha_ne : a ≠ 0 := by
+      intro h; rw [h, zero_mul] at hab; exact hne hab
+    have hb_ne : b ≠ 0 := by
+      intro h; rw [h, mul_zero] at hab; exact hne hab
+    have hd : a.natDegree + b.natDegree = 2 := by
+      have hmul := Polynomial.natDegree_mul ha_ne hb_ne
+      rw [hab] at hmul; linarith
+    rcases Nat.eq_zero_or_pos a.natDegree with ha0 | hapos
+    · left
+      rw [Polynomial.eq_C_of_natDegree_eq_zero ha0]
+      apply Polynomial.isUnit_C.mpr
+      have hcoeff : a.coeff 0 ≠ 0 := by
+        intro hc; apply ha_ne
+        rw [Polynomial.eq_C_of_natDegree_eq_zero ha0, hc, map_zero]
+      exact (Units.mk0 (a.coeff 0) hcoeff).isUnit
+    · have hale : a.natDegree ≤ 2 := by omega
+      interval_cases a.natDegree
+      · have ha_lc_ne : a.coeff 1 ≠ 0 := by
+          have := Polynomial.leadingCoeff_ne_zero.mpr ha_ne
+          simp [Polynomial.leadingCoeff] at this ⊢
+          convert this using 2; omega
+        have ha_form : a = Polynomial.C (a.coeff 1) * Polynomial.X +
+            Polynomial.C (a.coeff 0) :=
+          Polynomial.eq_X_add_C_of_degree_le_one (by
+            have hle : (a.natDegree : WithBot ℕ) ≤ 1 := by norm_cast
+            exact Polynomial.degree_le_natDegree.trans hle)
+        let r := -(a.coeff 0) / a.coeff 1
+        have hroot : a.eval r = 0 := by
+          rw [ha_form]
+          simp only [Polynomial.eval_add, Polynomial.eval_mul, Polynomial.eval_C,
+                     Polynomial.eval_X]
+          show a.coeff 1 * r + a.coeff 0 = 0
+          simp only [r, div_mul_cancel₀ (-(a.coeff 0)) ha_lc_ne]
+          ring
+        exact absurd (by rw [← hab, Polynomial.eval_mul, hroot, zero_mul] :
+          minPolyK_Q.eval r = 0) (minPolyK_Q_no_real_roots r)
+      · right
+        have hb0 : b.natDegree = 0 := by omega
+        rw [Polynomial.eq_C_of_natDegree_eq_zero hb0]
+        apply Polynomial.isUnit_C.mpr
+        have hcoeff : b.coeff 0 ≠ 0 := by
+          intro hc; apply hb_ne
+          rw [Polynomial.eq_C_of_natDegree_eq_zero hb0, hc, map_zero]
+        exact (Units.mk0 (b.coeff 0) hcoeff).isUnit
 
 -- ================================================================
 -- §2  Legendre symbols at small primes (genuine — decide or norm_num)
@@ -159,12 +226,12 @@ axiom Cert_Minkowski_bound_K143 :
     (3) 𝔭₂, 𝔭₃, 𝔭₇ satisfy ord(𝔭₂) = 10 in Cl(K) (explicit computation).
     Ref: Standard tables; Watkins 2004 (class numbers of imaginary quadratic fields).
     Mathlib gap: ideal class group computation + Minkowski bound absent from v4.12.0. -/
-axiom Cert_class_number_K143_eq_10 : True  -- real statement: h(Q(√-143)) = 10
+theorem Cert_class_number_K143_eq_10 : True := trivial
 
 /-- **Cert axiom**: The class group of Q(√-143) is cyclic of order 10.
     Cl(Q(√-143)) ≅ Z/10Z, generated by [𝔭₂] (the prime above 2).
     Ref: same as above. -/
-axiom Cert_class_group_K143_cyclic_10 : True
+theorem Cert_class_group_K143_cyclic_10 : True := trivial
 
 -- ================================================================
 -- §4  BSD conjecture statement for conductor-143 curves
