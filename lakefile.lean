@@ -38,4 +38,10 @@ lean_lib Towers where
              `Towers.ZFC.IndependenceFramework,
              `Towers.ZFC.ZFCCollection,
              `Towers.ZProtocol.ZProtocolFramework,
-             `Towers.ZProtocol.ZProtocolCollection]
+             `Towers.ZProtocol.ZProtocolCollection,
+             `Towers.Probabilistic.ProbabilisticComplexity,
+             `Towers.Interactive.InteractiveProofs,
+             `Towers.Interactive.SumCheck,
+             `Towers.Space.LadnerTheorem,
+             `Towers.PvsNP.EFGames,
+             `Towers.BSD.ClassNumberK143]
