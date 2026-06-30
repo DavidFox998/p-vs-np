@@ -6,7 +6,16 @@ propext, Classical.choice, Quot.sound
 + Cert_PNP_Ladner,
 + Cert_PNP_SAT_NP, Cert_PNP_SAT_NPhard,
 + Cert_PNP_Separation (OPEN CONJECTURE)
-NOTE: Cert_PNP_Algebrization graduated → theorem (Phase 17)
-NOTE: Cert_PNP_NaturalProofs graduated → theorem (Phase 17)
-NOTE: Cert_NP_subset_PP graduated → theorem (Phase 17)
-NOTE: Cert_PP_complement graduated → theorem (Phase 17)
++ Cert_Minkowski_bound_K143   (BSD/ClassNumberK143.lean -- Minkowski bound for Q(sqrt(-143)))
+NOTE: Cert_PNP_Algebrization graduated -> theorem (Phase 17)
+NOTE: Cert_PNP_NaturalProofs graduated -> theorem (Phase 17)
+NOTE: Cert_NP_subset_PP graduated -> theorem (Phase 17)
+NOTE: Cert_PP_complement graduated -> theorem (Phase 17)
+NOTE: Registered Phase 22 -- 6 files added to lakefile:
+      Towers.Probabilistic.ProbabilisticComplexity  (cert axioms: Adleman, SGL, BPP_Amplification)
+      Towers.Interactive.InteractiveProofs           (cert axioms: Shamir IP=PSPACE, GS BPP-in-AM)
+      Towers.Interactive.SumCheck                    (cert axioms: Schwartz-Zippel, TQBF)
+      Towers.Space.LadnerTheorem                     (cert axiom: Ladner 1975)
+      Towers.PvsNP.EFGames                           (cert axiom: Fagin NP=ESO)
+      Towers.BSD.ClassNumberK143                     (axiom: Cert_Minkowski_bound_K143;
+                                                      True-stubs: h(K)=10, Cl(K)=Z/10Z)
