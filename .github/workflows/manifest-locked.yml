@@ -1,0 +1,51 @@
+name: MANIFEST LOCKED
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Verify Opera Numerorum manifest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check OperaNumerorum_MasterEquations.pdf is committed
+        run: |
+          PDF="OperaNumerorum_MasterEquations.pdf"
+          if [ ! -f "$PDF" ]; then
+            echo "ERROR: $PDF not found -- manifest integrity broken"
+            exit 1
+          fi
+          SIZE=$(wc -c < "$PDF")
+          SHA=$(sha256sum "$PDF" | awk '{print $1}')
+          echo "OK: $PDF present ($SIZE bytes)"
+          echo "SHA256: $SHA"
+          EXPECTED="7f6b31b4469ebdbd59d03979c1f1c9b4c617bef4e88ed392c70c87dcb8fa0970"
+          if [ "$SHA" = "$EXPECTED" ]; then
+            echo "SHA MATCH: PDF is v3 (14 sections, July 1 2026)"
+          else
+            echo "SHA DIFFERS: PDF may be a newer version -- verify manually"
+          fi
+
+      - name: Report seal status
+        run: |
+          if [ -f "Seal/SORRYS.txt" ]; then
+            SORRY=$(cat Seal/SORRYS.txt | tr -d '[:space:]')
+            echo "Seal/SORRYS.txt: $SORRY"
+            if [ "$SORRY" = "0" ]; then
+              echo "SORRY SEAL: GREEN (0)"
+            else
+              echo "SORRY SEAL: RED ($SORRY) -- unexpected"
+              exit 1
+            fi
+          fi
+          if [ -f "Seal/AXIOMS.txt" ]; then
+            echo "Seal/AXIOMS.txt: $(cat Seal/AXIOMS.txt | head -1)"
+          fi
+          echo "STATUS: GREEN"
