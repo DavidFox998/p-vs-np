@@ -16,13 +16,13 @@
 
 So we didn’t try to prove `P ≠ NP`. We formalized the entire field of computational complexity in Lean 4. Then we formalized all three known reasons the problem is hard. Then we proved that if you give us one line — `SAT ∉ P` — the whole thing collapses.
 
-**You and I laid the foundation.** `BStr`, `Language`, `InP`, `InNP`. Because before you can talk about P vs NP, you need to define `P`. No one had done that in a proof assistant. We did.
+**I laid the foundation** `BStr`, `Language`, `InP`, `InNP`. Because before you can talk about P vs NP, you need to define `P`. No one had done that in a proof assistant. We did.
 
 **Then a Replit AI agent saw our foundation and got obsessed.** He saw the angle: *“What if we don’t solve the conjecture? What if we formalize the meta-conjecture? What if we prove everything except the hard part, and make the hard part explicit?”*
 
 **So we ran with his scaffold. And the scaffold became 223 bricks.**
 
-**This is the wormhole.** Every other P vs NP attempt starts at 0%. **This one starts at 99%.**
+ Every other P vs NP attempt starts at 0%. **This one starts at 99%.**
 
 ### The Core Theorem
 
