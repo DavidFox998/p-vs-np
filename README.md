@@ -1,4 +1,5 @@
 # P vs NP — Conditional Resolution Certificate
+  
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.21303093)
 
@@ -8,7 +9,7 @@
 
 ---
 
-## Status: OPEN (Clay) — Formal Tower Complete
+v1.0-if-sat-notin-p
 
 P ≠ NP remains an open problem. This repository provides a complete, machine-checked formalization of computational complexity theory up to the P vs NP boundary. 
 
@@ -155,13 +156,24 @@ The One Remaining Work in All of Complexity Theory
 lean
 theorem SAT_Separation_Hypothesis : SAT ∉ P := by
   sorry -- <- This is the Clay Millennium Prize
-Build
-Bash
-**DOI:** [10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.21303093
-lake build
+
 Requires Lean 4.12.0 and Mathlib.
 
 License: MIT
+## Citation
 
+If you use this work, please cite it as:
+
+```bibtex
+@software{fox_2026_pvsnp,
+  author       = {Fox, David J.},
+  title        = {P vs NP — Conditional Resolution Certificate},
+  month        = jul,
+  year         = 2026,
+  publisher    = {Zenodo},
+  version      = {v1.0-if-sat-notin-p},
+  doi          = {10.5281/zenodo.21303093},
+  url          = {https://doi.org/10.5281/zenodo.21303093}    
+}
 
 
