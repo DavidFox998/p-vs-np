@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+    - family-names: "Fox"
+    given-names: "David J."
+    orcid: "https://orcid.org/0009-0008-1290-6105"
+title: "P vs NP — Conditional Resolution Certificate"
+version: "v1.0-if-sat-notin-p"
+doi: "10.5281/zenodo.21303093"
+date-released: 2026-07-10
+license: "Apache-2.0"
+repository-code: "https://github.com/DavidFox998/p-vs-np"
