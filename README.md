@@ -1,5 +1,7 @@
 # P vs NP — Conditional Resolution Certificate
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.21303093)
+
 ### Theorema Aureum 143 · Morning Star Project
 **0 sorry. 0 admit. 0 conjectural axioms.**  
 **Lean 4 · Mathlib v4.12.0**
@@ -155,6 +157,7 @@ theorem SAT_Separation_Hypothesis : SAT ∉ P := by
   sorry -- <- This is the Clay Millennium Prize
 Build
 Bash
+**DOI:** [10.5281/zenodo.XXXXXXX](https://doi.org/10.5281/zenodo.21303093
 lake build
 Requires Lean 4.12.0 and Mathlib.
 
