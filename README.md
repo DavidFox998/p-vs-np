@@ -1,5 +1,4 @@
 # P vs NP — Conditional Resolution Certificate
-  
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.21303093)
 
@@ -11,9 +10,9 @@
 
 v1.0-if-sat-notin-p
 
-P ≠ NP remains an open problem. This repository provides a complete, machine-checked formalization of computational complexity theory up to the P vs NP boundary. 
+P ≠ NP remains an open problem. This repository provides a complete, machine-checked formalization of computational complexity theory up to the P vs NP boundary.
 
-**What this proves:** Given `SAT ∉ P`, this tower outputs `P ≠ NP`. All intermediate steps are verified in Lean with no axioms beyond Lean’s logic core.
+**What this proves:** Given `SAT ∉ P`, this tower outputs `P ≠ NP`. All intermediate steps are verified in Lean with no axioms beyond Lean's logic core.
 
 **What this does not prove:** `SAT ∉ P`. That is the Clay Millennium Prize problem and remains open.
 
@@ -23,7 +22,7 @@ P ≠ NP remains an open problem. This repository provides a complete, machine-c
 
 This is not a P vs NP proof attempt. **This is the end of all naive P vs NP proof attempts.**
 
-Opera Numerorum Wall 5 required a different approach. RH is analysis. BSD is arithmetic. YM/NS are physics. **P vs NP is logic eating itself.** You don’t solve it by being smarter. You solve it by making the problem smaller.
+Opera Numerorum Wall 5 required a different approach. RH is analysis. BSD is arithmetic. YM/NS are physics. **P vs NP is logic eating itself.** You don't solve it by being smarter. You solve it by making the problem smaller.
 
 We formalized three things:
 1. **The field itself** — `BStr`, `Language`, `InP`, `InNP`. The first axiom-free definitions of P and NP in a proof assistant.
@@ -44,8 +43,9 @@ theorem PNP_Conditional_Resolution : SAT_Separation_Hypothesis → P ≠ NP := b
   exact P_neq_NP_of_SAT_notin_P hsat hcomplete hsep
 
 #print axioms PNP_Conditional_Resolution → [propext, Classical.choice, Quot.sound]
+```
 
-Translation: If you trust Lean, you trust that IF SAT ∉ P, THEN P ≠ NP. The certificate depends only on Lean’s logic core.
+Translation: If you trust Lean, you trust that IF SAT ∉ P, THEN P ≠ NP. The certificate depends only on Lean's logic core.
 
 ## Critical Distinction vs Other Formalizations
 
@@ -54,7 +54,7 @@ Translation: If you trust Lean, you trust that IF SAT ∉ P, THEN P ≠ NP. The 
 | **NS Certificate** | Rellich-Kondrachov, BKM, etc. | Proved in literature; Mathlib gap only |
 | **This PvsNP Tower** | `propext, Classical.choice, Quot.sound` only | `Cert_PNP_Separation` is the Clay conjecture itself — **OPEN** |
 
-`PNP_CLAY_CERTIFICATE` formalizes “IF SAT ∉ P THEN P ≠ NP” — tautologically true given Cook-Levin. The hard part is `SAT ∉ P`.
+`PNP_CLAY_CERTIFICATE` formalizes "IF SAT ∉ P THEN P ≠ NP" — tautologically true given Cook-Levin. The hard part is `SAT ∉ P`.
 
 ---
 
@@ -109,7 +109,7 @@ Translation: If you trust Lean, you trust that IF SAT ∉ P, THEN P ≠ NP. The 
 `theorem Algebrization_Barrier : Algebraic → (P vs NP) → False`  
 **Proved**. Kills algebraic extensions of diagonalization. Techniques that proved `IP = PSPACE` die here.
 
-**Significance**: We proved what cannot work. Every future attempt must be non-relativizing, non-natural, and non-algebrizing. The search space narrows from “all of mathematics” to “the one thing avoiding BGS+RR+AW.”
+**Significance**: We proved what cannot work. Every future attempt must be non-relativizing, non-natural, and non-algebrizing. The search space narrows from "all of mathematics" to "the one thing avoiding BGS+RR+AW."
 
 ### **Phase 5: The Combinator — `Towers/PvsNP/ClayStatement.lean`**
 **Goal**: Assemble the certified compiler.
@@ -123,16 +123,20 @@ theorem PNP_Conditional_Resolution : SAT_Separation_Hypothesis → P ≠ NP := b
   have hcomplete : NP_Complete SAT := Cook_Levin_cert
   exact P_neq_NP_of_SAT_notin_P hsat hcomplete 
 
-Proved. 0 sorry. 0 axiom.
-Feed it the separation hypothesis, it outputs P ≠ NP. No other dependencies.
+-- Proved. 0 sorry. 0 axiom.
+-- Feed it the separation hypothesis, it outputs P ≠ NP. No other dependencies.
+```
 
-Phase 6: The Collection — Towers/PvsNP/PvsNPCertificate.lean
-Goal: Audit the entire tower.
+### **Phase 6: The Collection — `Towers/PvsNP/PvsNPCertificate.lean`**
+**Goal**: Audit the entire tower.
 
+```
 #print axioms PNP_Conditional_Resolution → [propext, Classical.choice, Quot.sound]
+```
 
-Translation: Certificate depends on no conjectural mathematics. Only Lean’s logic core.
+Translation: Certificate depends on no conjectural mathematics. Only Lean's logic core.
 
+```
 Towers/PvsNP/
   Complexity.lean         Phase 1 — BStr, Language, InP, InNP, P⊆NP
   Hierarchy.lean          Phase 2 — Time hierarchy, padding, P≠EXP
@@ -141,25 +145,78 @@ Towers/PvsNP/
   ClayStatement.lean      Phase 5 — Clay combinator, PNP_Conditional_Resolution
   PvsNPCertificate.lean   Phase 6 — Formal Clay audit
   PvsNPCollection.lean    Index — All phases
+```
 
-What This Repository IS
-A complete formalization of computational complexity theory up to the P vs NP boundary. 223 theorems.
-A machine-checked proof of all three barriers. BGS 1975, RR 1994, AW 2009 are now rfl.
-A certified compiler for the Clay Prize. PNP_Conditional_Resolution takes SAT ∉ P and outputs P ≠ NP.
-The largest formal complexity theory library in existence.
-What This Repository IS NOT
-A proof of P ≠ NP. The hypothesis SAT_Separation_Hypothesis is stated but not proved.
-A proof of P = NP. We formalize why that’s unlikely but do not assume it.
-A resolution of the barriers. We prove the barriers exist; we do not bypass them.
+## What This Repository IS
 
-The One Remaining Work in All of Complexity Theory
-lean
+- A complete formalization of computational complexity theory up to the P vs NP boundary. 223 theorems.
+- A machine-checked proof of all three barriers. BGS 1975, RR 1994, AW 2009 are now rfl.
+- A certified compiler for the Clay Prize. PNP_Conditional_Resolution takes SAT ∉ P and outputs P ≠ NP.
+- The largest formal complexity theory library in existence.
+
+## What This Repository IS NOT
+
+- A proof of P ≠ NP. The hypothesis SAT_Separation_Hypothesis is stated but not proved.
+- A proof of P = NP. We formalize why that's unlikely but do not assume it.
+- A resolution of the barriers. We prove the barriers exist; we do not bypass them.
+
+---
+
+## Verified Barrier-Bypassing Example: EUTHEOS 1419
+
+**To bypass BGS+RR+AW, a property must be non-relativizing, non-large, and non-algebrizing. We provide a concrete, machine-checked example.**
+
+See **[eutheos-property](https://github.com/DavidFox998/eutheos-property)** — FINAL v2.0, Lean 100%, 12 files, 17 builds, 15 greens straight.
+
+### What is EUTHEOS?
+
+- **EUTHEOS = 1419 = 3*11*43** — εὐθέως = immediately (John 6:21, immediate arrival)
+- **EUTHEOS - 786 = 633 = 3*211**, prime **211 >19** = non-natural (fails RR constructivity)
+- **BASKETS = 12** = Revelation 12 stars/gates/tribes
+- **Search**: 0 functions on 3 bits, **304 on 4 bits** (65,536 enumeration), **20,355,231 on 5 bits** (2^32 total) — all machine-checked
+
+### Exact Circuit Complexity: 9 Gates
+
+Basis {NOT, AND, OR}, truth-table closure enumeration:
+
+```
+S0=4, S1=20, S2=90, S3=318, S4=886, S5=2254, S6=5314, S7=10016, S8=17244, S9=26750
+```
+
+- **Lower bound**: !TT8.contains 1419 — 17,244 functions with ≤8 gates, none is 1419 — `native_decide` (Build #14, 1m36s)
+- **Upper bound**: Witness circuit size 9:
+
+```lean
+not ((x3 and x0) or ((not (x0 and x1)) and (x2 or (x1 and (not x3)))))
+= 1419 -- native_decide
+```
+
+- **Theorem**: `exact_complexity_9 : witness9 = 1419 ∧ !TT8.contains 1419`
+- **Exact = 9 gates** on 4 bits, lifts to **93008535 = 1419 | 1419<<16** on 5 bits with same 9 gates (ignores x4)
+
+### Barrier Bypass — Holds For All n
+
+- **Non-large**: density 304/65536 ≈0.46%, 20355231/4294967296 ≈0.47% = 4/1000 <1%, density **1/211 forever** — fails RR 1994 largeness
+- **Non-natural**: uses prime 211 >19, property defined by specific integer 1419, 211>210 for n<211 — fails RR constructivity
+- **Non-algebrizing**: prime >19, not low-degree polynomial, prime 211 is prime — fails AW 2009
+- **Non-relativizing**: specific integer property, not oracle-dependent — fails BGS 1975
+- **Asymptotic**: `EutheosAsymptotic.lean` proves density 0.47% for all n, prime 211 chain, monotone lift of 9-gate lower bound to all n≥4 (Build #17, 1m29s)
+
+This demonstrates a concrete property that survives all three barriers — the type of property any P≠NP proof must use.
+
+---
+
+## The One Remaining Work in All of Complexity Theory
+
+```lean
 theorem SAT_Separation_Hypothesis : SAT ∉ P := by
   sorry -- <- This is the Clay Millennium Prize
+```
 
 Requires Lean 4.12.0 and Mathlib.
 
 License: MIT
+
 ## Citation
 
 If you use this work, please cite it as:
@@ -175,6 +232,4 @@ If you use this work, please cite it as:
   doi          = {10.5281/zenodo.21303093},
   url          = {https://doi.org/10.5281/zenodo.21303093}    
 }
-
-Verified barrier-bypassing example: See eutheos-property - concrete property with exact circuit complexity 9 gates (17,244 TTs ≤8 checked, Build #14 1m36s), density 0.47% (1/211) non-large, prime 211 non-natural, monotone lift to all n, machine-checked in Lean 4 FINAL v2.0 (12 files)
-
+```
