@@ -175,5 +175,6 @@ If you use this work, please cite it as:
   doi          = {10.5281/zenodo.21303093},
   url          = {https://doi.org/10.5281/zenodo.21303093}    
 }
+
 Verified barrier-bypassing example: See eutheos-property - concrete property with exact circuit complexity 9 gates (17,244 TTs ≤8 checked, Build #14 1m36s), density 0.47% (1/211) non-large, prime 211 non-natural, monotone lift to all n, machine-checked in Lean 4 FINAL v2.0 (12 files)
 
