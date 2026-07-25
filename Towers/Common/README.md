@@ -3,10 +3,8 @@
 ### Overview
 Single source of truth for arithmetic constants all 10 other towers reuse. Kills N haunting loop where we rebuilt X0(143) 50 times because Mathlib doesn't have it. Provides `N=143, phi=120, g=13, h=10, p5=3993746143633` as `native_decide`.
 
-### For Layperson
 Number 143 = 11×13 looks random but it's the workhorse of modern number theory. Its totient phi=120 = number of vertices of 120-cell + binary icosahedral group order. Its class number h=10 = denominator of 1/10 averaging factor in Navier-Stokes icosahedral proof + prefix chain length in P vs NP hash. Its prime p5=3993746143633 = BDP phase reversal prime for BSD. This folder stores those numbers once so we never rebuild them.
 
-### For Referee
 Provides `ConductorRow` structure `{N, phi, g, h, p5}` with `conductor_table : List ConductorRow`. Main entry `N_143=143`, `phi_143=120`, `g_X0_143=13` (genus X0(143) = dim J0(143)), `h_neg143=10` (class number Q(√-143)), `p5_BDP=3993746143633`. Theorem `phi_143_eq : Nat.totient 143 = 120 := by native_decide`. Universal lookup `getConductor N := table.find? (·.N==N)`. Used by BSD (BSD rank), PvsNP.ConductorHash (prefix-respecting hash), Space (Ladner padding constant), Continuum (cardinal bound example).
 
 ### Methodology
