@@ -1,16 +1,8 @@
-# Continuum — Cardinal Arithmetic
+# Continuum — Cardinal Arithmetic + CH
 
-**Purpose:** Formalize cardinal bounds, König's theorem, CH independence scaffolding.
+### Overview
+Formalizes cardinal bounds, König's theorem, continuum hypothesis independence scaffolding.
 
-**Files:**
-- `CardinalBounds.lean`
-- `ContinuumHypothesis.lean`
-- `KonigTheorem.lean`
-- `KonigInequality.lean`
-- `ContinuumCollection.lean`
+How many real numbers are there? More than integers — Cantor proved. Continuum hypothesis says no size between integers and reals. This tower formalizes sizes of infinite sets and König's theorem that says cofinality prevents certain cardinal exponentiations.
 
-**Methodology:** Cardinal as `Cardinal.mk`, Beth numbers, König's inequality `cf(κ^cf κ) > κ`, cardinal exponentiation bounds, CH as `2^ℵ0 = ℵ1`.
-
-**Results:** Cardinal inequalities, König's theorem machine-checked, CH statement formalized. Used by ZFC tower for independence.
-
-**Dependencies:** Mathlib SetTheory Cardinal.
+Defines `Cardinal` via `Cardinal.mk`, Beth `ℶ0=ℵ0, ℶ_{α+1}=2^{ℶα}`, `cf κ` cofinality, König's theorem `κ < κ^{cf κ}` for infinite κ, König's inequality `cf(2^κ) > κ`,
