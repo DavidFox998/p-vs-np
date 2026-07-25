@@ -44,4 +44,6 @@ lean_lib Towers where
              `Towers.Interactive.SumCheck,
              `Towers.Space.LadnerTheorem,
              `Towers.PvsNP.EFGames,
-             `Towers.BSD.ClassNumberK143]
+             `Towers.BSD.ClassNumberK143,
+             `Towers.Common.Conductor,
+             `Towers.PvsNP.ConductorHash]
