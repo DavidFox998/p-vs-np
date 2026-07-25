@@ -3,10 +3,8 @@
 ### Overview
 Formalizes cardinal bounds, König's theorem, continuum hypothesis independence scaffolding. Provides infinite set size tools used by ZFC tower for forcing.
 
-### For Layperson
 How many real numbers are there? More than integers — Cantor proved diagonal argument: list all reals, flip diagonal, new real not in list. Continuum hypothesis (CH) says there is no size between integers and reals — no set bigger than integers but smaller than reals. Gödel and Cohen proved CH can't be proved or disproved from ZFC — independent. This tower formalizes sizes of infinite sets (cardinals), Beth numbers (2^ℵ0, 2^{2^ℵ0}, ...), cofinality (shortest cofinal sequence), and König's theorem that says `cf(κ^{cf κ}) > κ` — prevents cardinal exponentiation from being too small. Used to show why P vs NP needs careful counting — Shannon counting `2^{2^n} > poly(n)` is same flavor.
 
-### For Referee
 Defines `Cardinal` via `Cardinal.mk` quotient of `Type` by equinumerosity `∃ f: α ≃ β`. Defines `ℵ0 = Cardinal.mk ℕ`, `ℵ_{α+1} = successor`, `ℶ0 = ℵ0, ℶ_{α+1}=2^{ℶα}`. Defines cofinality `cf κ = minimal |I| where ∃ cofinal map I→κ`. Proves König's theorem: for infinite `κ`, `κ < κ^{cf κ}` — via diagonalization `f: κ → P(κ)` can't be onto — same as Cantor. Proves König's inequality: `cf(2^κ) > κ` — corollary. Formalizes CH as `2^{ℵ0} = ℵ1`, GCH as `∀ α, 2^{ℵα}=ℵ_{α+1}`. Provides cardinal bounds `ℶ1 = 2^{ℵ0}`, `ℶ1 ≤ 2^{ℵ0} < ℶ2` etc. Provides counting lemmas used by Space tower for `DSPACE(log n) ⊆ P` via `2^{O(log n)} = poly`.
 
 ### Methodology
