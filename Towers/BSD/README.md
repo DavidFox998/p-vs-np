@@ -3,10 +3,8 @@
 ### Overview
 Arithmetic tower for BSD(143a1) + class number h(-143)=10 used by NS 1/10 factor and PvsNP ConductorHash prefix chain.
 
-### For Layperson
 BSD is about elliptic curves — doughnut-shaped equations like y²=x³+ax+b. Rank = number of independent infinite solutions. BSD conjecture says rank = order of vanishing of L-function. For curve 143a1 (conductor 143=11×13), rank 0/1 data gives class number 10 — same 10 that appears in Navier-Stokes 1/10 averaging and P vs NP hash prefix chain.
 
-### For Referee
 Formalizes BSD for E=143a1: `N=143`, L-function `L(E,s)`, Heegner point, Kolyvagin derivative, BDP p-adic L-value prime `p5=3993746143633`. Analytic class number formula for imaginary quadratic `K=Q(√-143)` gives `h_K=10`. Uses LMFDB-anchored definitions (LMFDB database as external truth, not proved in Lean). Provides `ClassNumberK143.lean` with `h_neg143=10` theorem via `native_decide` wrapper around data.
 
 ### Methodology
