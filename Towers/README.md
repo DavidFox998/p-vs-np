@@ -3,10 +3,8 @@
 ### Overview
 Complete machine-checked formalization of computational complexity theory up to P vs NP boundary. 225 bricks. Provides certified compiler `SAT_Separation_Hypothesis → P ≠ NP` with `print axioms = classical trio`. Includes `ConductorHash` — prefix-respecting hash via `p5=3993746143633` for locality-audit chain.
 
-### For Layperson
 We formalized what P and NP mean for a computer (not textbook handwaving), formalized why P vs NP is hard (three walls: relativization, natural proofs, algebrization that kill all naive techniques), and built a compiler that says IF one puzzle (SAT) is hard THEN P≠NP. New: we added a number-theory table (143=11×13) and a hash built from huge prime 3,993,746,143,633 that forces the compiler to build solutions step-by-step. Same 1/10 idea as Navier-Stokes proof.
 
-### For Referee
 **Goal:** Axiom-free `BStr, Language, InP, InNP`, three barriers as Lean theorems, `PNP_Conditional_Resolution : SAT ∉ P → P ≠ NP`.
 
 **Structure:**
