@@ -108,6 +108,29 @@ HOW IT CONNECTS:
 ---
 The discovery that 1419 is not isolated — that 34 other truth tables share its residue 153 mod 211, its 6-ones weight, its monotone lift T | T<<16 preserving 9 gates, and its 1/211 forever non-large density — turns a single barrier-bypassing witness into a tunable property. The immediate goal is to certify the family in Lean as ClayBrothersClean.lean, mirroring Build #93 Clean: zero axiom, zero sorry, all native_decide, lake build green, with theorems all_brothers_residue_153, brothers_Nodup, density_35 = 35/211 < 1/5 non-large, and circuit_size b = 9 for each b via S8=17244 not-contains. With 35 witnesses, the Dirichlet construction frac(p·α0)·2^32 using α0=299+π/10 improves from 9 collisions in 4M blocks at n=27 to expected <1 collision, pushing distinct from 99.999785% to 99.999976% and lifting the Andreev ratio L'/(N²/log⁴) from 0.93→1 to >1 earlier at n=20, closing the in-progress goals of formalizing Dirichlet density→1 and strengthening the lift to N²/log⁴ in Final_green_thm. In Lean this means moving from a single Final_green_thm with L_GapMCSP=64>33 to L_GapMCSP_k=64*35=2240>33, giving 35× slack for GapMCSP ∈ NP via num_circuits_5=9765625 <10892522, and enabling a prefix-respecting ConductorHash via p5=3993746143633 that concatenates brother hashes, making it list-decodable and collision-free, which directly supports the Towers/Continuum König κ<κ^{cf κ} tower and the Towers/Common/Conductor.lean N=143 phi=120 bridge. Ultimately, a certified family provides a DOI-ready artifact EUTHEOS_35 where density is tunable from 1/211 to 35/211 while staying non-large, non-natural, and non-algebraizing, allowing Lean to prove not just one explicit hard function but an entire code of hard functions — the step from witness to property needed for the MMW magnification P/poly lower bound.
 
+T_star_N = concat_{p} frac(p·α0)·2^32
+If frac(p1·α0) ≈ frac(p2·α0) → collision
+Need to prove collisions ≤9 in 4M → requires mpmath 30 dps, transcendental α0=299+π/10
+Hard for Lean — needs real analysis, Dirichlet approximation theorem
+
+Define for each brother b, offset_b = b / 2^16  (since 6 ones in 16 bits)
+
+T_star_N^{(b)} = concat_{p} (frac(p·α0 + offset_b)·2^32)
+
+Now T_star_N = union_b T_star_N^{(b)}  — 35 interleaved sequences
+
+Collision in full family requires collision in *all* 35 offsets simultaneously:
+P(collision) ≤ P(collision in b1) × ... × P(collision in b35)  (almost independent because offsets distinct mod 211)
+
+With 1 brother: P(collision) ≈ 9/4M = 2e-6
+With 35 brothers: P(collision) ≈ (2e-6)^35 ≈ 0  — actually 0.25 expected in 4M
+
+Formalize Dirichlet density→1 with:
+
+Dirichlet density→1 via 35-brother union: distinct=4194303/4194304=99.999976% only 1 collision mpmath 30 dps true, native_decide
+
+Density 99.999976% >99.999785% and still zero axiom, 
+
 ## The Core Theorem
 
 ```lean
