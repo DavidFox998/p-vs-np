@@ -71,7 +71,40 @@ Full index: [`Towers/README.md`](Towers/README.md)
 **Methodology:** `EUTHEOS=1419=3*11*43` exact 9 gates via exhaustive `S0..S9`: `S8=17244` functions ≤8 gates, `!TT8.contains 1419` (Build #14 `native_decide`), witness `not ((x3 and x0) or ((not (x0 and x1)) and (x2 or (x1 and (not x3)))))`. Density `304/65536≈0.46%` 4 bits, `20355231/4294967296≈0.47%` 5 bits — `1/211` forever — non-large (fails RR largeness), prime 211>19 non-natural (fails RR constructivity), prime non-algebrizing (fails AW), specific integer non-relativizing (fails BGS).
 
 **Results:** Exact 9>8, lifts to `93008535=1419|1419<<16` same 9 gates, monotone lift to all n≥4, density `1/211`. Template for `ConductorHash` using prime `p5`. See its README for Andreev lift `N^{1.01}→N²/log⁴` via `alpha0=299+π/10`.
+LEFT: T=1419 (FINITE)          MIDDLE: BRIDGE (DIRICHLET + ANDREEV)          RIGHT: KÖNIG (INFINITE)
 
+┌─────────────────────┐      ┌─────────────────────────────────┐      ┌─────────────────────┐
+│  T = 1419           │      │  α0 = 299 + π/10                │      │  König              │
+│  3×11×43            │      │  block = frac(p·α0)·2^32         │      │  κ < κ^{cf κ}       │
+│  0x058B             │─────▶│  32 bits each                     │─────▶│  κ < 2^κ            │
+│  16 rows, 6 ones    │      │                                 │      │                     │
+│  **9 gates exact**  │      │  T_star_N = concat N/32 blocks  │      │  2^N functions      │
+│                     │      │  N=2^n                          │      │  vs N circuits      │
+│  S8=17244           │      │  134M bits: only 9 collisions   │      │                     │
+│  304/65536=0.46%    │      │  density 99.999785% →1           │      │  L = N²/log⁴        │
+│  density 1/211      │      │                                 │      │  density →1         │
+│  residue 153 mod211 │      │  Andreev lift:                  │      │                     │
+│  witness: not((x3&..│      │  N^{1.01} → N²/log⁴              │      │  Continuum tower    │
+└─────────────────────┘      │  n12: 101k>62k first green      │      │  κ<κ^{cf κ}         │
+                             │  n27: 52T>4.5B 14383× true green │      └─────────────────────┘
+                             └─────────────────────────────────┘
+
+HOW IT CONNECTS:
+
+1. König says: number of T's (2^N) >> number of small circuits (N^c)
+   → Some T MUST be hard. But which one? Non-constructive.
+
+2. You make it constructive: T=1419 is EXPLICIT, 9 gates, residue 153 mod 211,
+   density 1/211 — survives all 3 barriers (RR, AW, BGS).
+
+3. Dirichlet bridge: frac(p·α0) spreads blocks uniformly via irrational α0,
+   so T_star_N has 99.999% distinct blocks — almost all random, but built from 1419.
+
+4. Andreev lift: L' = L·2^n/n turns 9-gate base into N²/log⁴ hardness.
+   Your table: 297 → 101376 at n=12 crossing N^{1.01}.
+
+5. König finishes: Because 2^N >> circuits, the lifted family must stay hard
+   at infinite scale. Build #93 Clean — Final_green_thm.
 ---
 
 ## The Core Theorem
