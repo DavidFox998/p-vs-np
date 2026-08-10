@@ -1,139 +1,20 @@
-# P vs NP — Conditional Resolution Certificate
+p-vs-np is not a proof that P != NP. It's a certified compiler — a machine that takes one hard puzzle and turns it into the separation. Lean checks every gear.
+1. The chassis — Conductor N=143
+Everything sits on:
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.21303093)
-[![CI](https://github.com/DavidFox998/p-vs-np/actions/workflows/ci.yml/badge.svg)](https://github.com/DavidFox998/p-vs-np/actions)
+N = 143 = 11 × 13
+phi = 120  — 120-cell
+g = 13     — genus of X₀(143) — same curve that closes Routes A-D
+h = 10     — class number h(-143)=10
+p5 = 3993746143633 — boundary prime, same prime as M10 g≤408
+File Towers/Common/Conductor.lean — this is why this repo discovered 35 brothers. Same numbers appear in RH: S₄={2,3,19,191} C=11.422>2√13 closes GRH X₀(143). Here 143 is the level.
+2. 11 Towers + Seal
 
-### Theorema Aureum 143 · Morning Star Project
-**0 sorry. 0 admit. 0 conjectural axioms.**  
-**Lean 4 · Mathlib v4.12.0 · 225 bricks · MANIFEST LOCKED**
+Built as cathedral with towers — see Towers/README.md:
+• Common — numbers above • PvsNP — definitions + compiler + ConductorHash • Computability — Turing machines, halting undecidable, tableau size tableau 32 1 = 10240 ≤ 1048576 certified by native_decide • PvsNP barriers — formal theorems that kill bad proof techniques: ◦ BGS 1975 relativization — oracle where P=NP and oracle where P≠NP, so no relativizing proof works ◦ RR 1994 natural proofs — if a property is large + constructive, it can't prove P≠NP if factoring is hard ◦ AW 2009 algebrization — extension of relativization • Space / Probabilistic / Interactive — Savitch, NL=coNL, BPP⊆P/poly, IP=PSPACE via sum-check Schwartz-Zippel • Continuum — König κ < κ^{cf κ} — the infinite pigeonhole • Seal — MANIFEST LOCKED — SHA256 of all bricks, 0 sorry CI 
+Goal: axiom-free BStr, Language, InP, InNP — only [propext, Classical.choice, Quot.sound]
+3. The core theorem — 4 lines
 
----
-
-## Overview
-
-Complete, machine-checked formalization of computational complexity theory up to P vs NP boundary. Certified compiler `SAT_Separation_Hypothesis → P ≠ NP` with classical trio axioms only.
-
-**Includes:**
-- `Towers/Common/Conductor.lean` — `N=143, phi=120, g=13, h=10, p5=3993746143633`
-- `Towers/PvsNP/ConductorHash.lean` — prefix-respecting hash via `p5`
-
-**Status:** `v1.1-if-sat-notin-p-conductor-hash` — `SAT ∉ P` remains Clay Millennium problem — this tower is the certified compiler.
-
-**Structure:** 11 towers + Seal — see [`Towers/README.md`](Towers/README.md) for full index, [`Seal/README.md`](Seal/README.md) for MANIFEST LOCKED sealing.
-
----
-P = problems solved quickly. NP = solutions checked quickly. Example: Sudoku solving vs checking. Does quick checking imply quick solving? That's P vs NP.
-
-This repo doesn't answer it. It builds a machine that makes the question precise for a computer and proves IF one puzzle (SAT) cannot be solved quickly THEN P≠NP. Lean checks every step — no handwaving.
-
-Compiler includes number theory table `143=11×13`, `phi=120` (120-cell), class number `10` (same 1/10 factor as Navier-Stokes icosahedral proof), and hash from prime `p5=3993746143633` that builds solutions step-by-step, prefix by prefix.
-
----
-**Goal:** Axiom-free `BStr, Language, InP, InNP`, three barriers as Lean theorems (BGS 1975, RR 1994, AW 2009), `PNP_Conditional_Resolution : SAT ∉ P → P ≠ NP` with `print axioms = [propext, Classical.choice, Quot.sound]`.
-
-**Methodology:**
-- Axiom-free definitions, time hierarchy diagonalization, Cook-Levin tableau Tseitin `tableau 32 1 =10240 ≤ 1048576` via `native_decide`
-- Barriers as implications killing relativizing/natural/algebrizing techniques
-- Locality audits WV/FOCUS/BRC/SRC/SPA → LocalNOT → junta → AND of block-local → monotone collapse → Razborov 1985 CLIQUE
-- `ConductorHash S C` sorts by `S(v)` and checks `sum_{i≤k} S(vi) mod p5 ==0` for all prefixes — provides explicit chain `T1⊂...⊂Tt=C*` — `FORCE(I,T)` and `CliqueExtract` correct by construction
-
-**Empirical Math Dependency:** Hartmanis-Stearns 1965, Cook 1971, Cook-Levin 1971/73, Karp 1972, Shannon 1949, Baker-Gill-Solovay 1975, Savitch 1970, Immerman/Szelepcsényi 1987/88, Ladner 1975, Adleman 1978, Sipser/Lautemann 1983, Razborov 1985, Razborov-Rudich 1994, Aaronson-Wigderson 2009, LFKN 1990/Shamir 1992 IP=PSPACE, Schwartz-Zippel, Fagin 1974, Immerman-Vardi 1982/86, Toda 1991, Gödel 1931, Cohen 1963, Cantor 1891, König 1905, LMFDB 143.a1, BDP 2013 p5. Numerical constants via `native_decide`. Axioms classical trio only.
-
----
-
-## Towers — 11 + Seal
-
-| Tower | README | Purpose | Key Result |
-|-------|--------|---------|------------|
-| Common | [README](Towers/Common/README.md) | Conductor library | `phi=120,g=13,h=10,p5` |
-| PvsNP | [README](Towers/PvsNP/README.md) | Compiler + ConductorHash | `SAT∉P→P≠NP` + prefix hash |
-| BSD | [README](Towers/BSD/README.md) | Arithmetic | `h(-143)=10, p5` |
-| Approximation | [README](Towers/Approximation/README.md) | Hardness of approx | APX, PTAS, PCP |
-| Computability | [README](Towers/Computability/README.md) | Recursion theory | Halting undecidable, tableau `10240≤1048576` |
-| Continuum | [README](Towers/Continuum/README.md) | Cardinal arithmetic | König `κ<κ^{cf κ}` |
-| Interactive | [README](Towers/Interactive/README.md) | IP=PSPACE | Sum-check, Schwartz-Zippel |
-| Probabilistic | [README](Towers/Probabilistic/README.md) | BPP | BPP⊆P/poly, BPP⊆PH |
-| Space | [README](Towers/Space/README.md) | Space complexity | Savitch, NL=coNL, Ladner |
-| ZFC | [README](Towers/ZFC/README.md) | Independence | Gödel, forcing skeleton |
-| ZProtocol | [README](Towers/ZProtocol/README.md) | Honesty | OPEN/CERT/CLAIM, `forbidden?` |
-| Seal | [README](Seal/README.md) | MANIFEST LOCKED | SHA256 seal, 0 sorry CI |
-
-Full index: [`Towers/README.md`](Towers/README.md)
-
----
-
-## Companion — Barrier-Bypassing Property
-
-**[eutheos-property](https://github.com/DavidFox998/eutheos-property) — FINAL v2.0, Lean 100%, 12 files, 17 builds.**
-
-**Purpose:** Concrete, machine-checked property that bypasses all three barriers — type any P≠NP proof must use. This repo formalizes barriers; eutheos-property provides example that survives them.
-
-**Methodology:** `EUTHEOS=1419=3*11*43` exact 9 gates via exhaustive `S0..S9`: `S8=17244` functions ≤8 gates, `!TT8.contains 1419` (Build #14 `native_decide`), witness `not ((x3 and x0) or ((not (x0 and x1)) and (x2 or (x1 and (not x3)))))`. Density `304/65536≈0.46%` 4 bits, `20355231/4294967296≈0.47%` 5 bits — `1/211` forever — non-large (fails RR largeness), prime 211>19 non-natural (fails RR constructivity), prime non-algebrizing (fails AW), specific integer non-relativizing (fails BGS).
-
-**Results:** Exact 9>8, lifts to `93008535=1419|1419<<16` same 9 gates, monotone lift to all n≥4, density `1/211`. Template for `ConductorHash` using prime `p5`. See its README for Andreev lift `N^{1.01}→N²/log⁴` via `alpha0=299+π/10`.
-LEFT: T=1419 (FINITE)          MIDDLE: BRIDGE (DIRICHLET + ANDREEV)          RIGHT: KÖNIG (INFINITE)
-
-┌─────────────────────┐      ┌─────────────────────────────────┐      ┌─────────────────────┐
-│  T = 1419           │      │  α0 = 299 + π/10                │      │  König              │
-│  3×11×43            │      │  block = frac(p·α0)·2^32         │      │  κ < κ^{cf κ}       │
-│  0x058B             │─────▶│  32 bits each                     │─────▶│  κ < 2^κ            │
-│  16 rows, 6 ones    │      │                                 │      │                     │
-│  **9 gates exact**  │      │  T_star_N = concat N/32 blocks  │      │  2^N functions      │
-│                     │      │  N=2^n                          │      │  vs N circuits      │
-│  S8=17244           │      │  134M bits: only 9 collisions   │      │                     │
-│  304/65536=0.46%    │      │  density 99.999785% →1           │      │  L = N²/log⁴        │
-│  density 1/211      │      │                                 │      │  density →1         │
-│  residue 153 mod211 │      │  Andreev lift:                  │      │                     │
-│  witness: not((x3&..│      │  N^{1.01} → N²/log⁴              │      │  Continuum tower    │
-└─────────────────────┘      │  n12: 101k>62k first green      │      │  κ<κ^{cf κ}         │
-                             │  n27: 52T>4.5B 14383× true green │      └─────────────────────┘
-                             └─────────────────────────────────┘
-
-HOW IT CONNECTS:
-
-1. König says: number of T's (2^N) >> number of small circuits (N^c)
-   → Some T MUST be hard. But which one? Non-constructive.
-
-2. You make it constructive: T=1419 is EXPLICIT, 9 gates, residue 153 mod 211,
-   density 1/211 — survives all 3 barriers (RR, AW, BGS).
-
-3. Dirichlet bridge: frac(p·α0) spreads blocks uniformly via irrational α0,
-   so T_star_N has 99.999% distinct blocks — almost all random, but built from 1419.
-
-4. Andreev lift: L' = L·2^n/n turns 9-gate base into N²/log⁴ hardness.
-   Your table: 297 → 101376 at n=12 crossing N^{1.01}.
-
-5. König finishes: Because 2^N >> circuits, the lifted family must stay hard
-   at infinite scale. Build #93 Clean — Final_green_thm.
----
-The discovery that 1419 is not isolated — that 34 other truth tables share its residue 153 mod 211, its 6-ones weight, its monotone lift T | T<<16 preserving 9 gates, and its 1/211 forever non-large density — turns a single barrier-bypassing witness into a tunable property. The immediate goal is to certify the family in Lean as ClayBrothersClean.lean, mirroring Build #93 Clean: zero axiom, zero sorry, all native_decide, lake build green, with theorems all_brothers_residue_153, brothers_Nodup, density_35 = 35/211 < 1/5 non-large, and circuit_size b = 9 for each b via S8=17244 not-contains. With 35 witnesses, the Dirichlet construction frac(p·α0)·2^32 using α0=299+π/10 improves from 9 collisions in 4M blocks at n=27 to expected <1 collision, pushing distinct from 99.999785% to 99.999976% and lifting the Andreev ratio L'/(N²/log⁴) from 0.93→1 to >1 earlier at n=20, closing the in-progress goals of formalizing Dirichlet density→1 and strengthening the lift to N²/log⁴ in Final_green_thm. In Lean this means moving from a single Final_green_thm with L_GapMCSP=64>33 to L_GapMCSP_k=64*35=2240>33, giving 35× slack for GapMCSP ∈ NP via num_circuits_5=9765625 <10892522, and enabling a prefix-respecting ConductorHash via p5=3993746143633 that concatenates brother hashes, making it list-decodable and collision-free, which directly supports the Towers/Continuum König κ<κ^{cf κ} tower and the Towers/Common/Conductor.lean N=143 phi=120 bridge. Ultimately, a certified family provides a DOI-ready artifact EUTHEOS_35 where density is tunable from 1/211 to 35/211 while staying non-large, non-natural, and non-algebraizing, allowing Lean to prove not just one explicit hard function but an entire code of hard functions — the step from witness to property needed for the MMW magnification P/poly lower bound.
-
-T_star_N = concat_{p} frac(p·α0)·2^32
-If frac(p1·α0) ≈ frac(p2·α0) → collision
-Need to prove collisions ≤9 in 4M → requires mpmath 30 dps, transcendental α0=299+π/10
-Hard for Lean — needs real analysis, Dirichlet approximation theorem
-
-Define for each brother b, offset_b = b / 2^16  (since 6 ones in 16 bits)
-
-T_star_N^{(b)} = concat_{p} (frac(p·α0 + offset_b)·2^32)
-
-Now T_star_N = union_b T_star_N^{(b)}  — 35 interleaved sequences
-
-Collision in full family requires collision in *all* 35 offsets simultaneously:
-P(collision) ≤ P(collision in b1) × ... × P(collision in b35)  (almost independent because offsets distinct mod 211)
-
-With 1 brother: P(collision) ≈ 9/4M = 2e-6
-With 35 brothers: P(collision) ≈ (2e-6)^35 ≈ 0  — actually 0.25 expected in 4M
-
-Formalize Dirichlet density→1 with:
-
-Dirichlet density→1 via 35-brother union: distinct=4194303/4194304=99.999976% only 1 collision mpmath 30 dps true, native_decide
-
-Density 99.999976% >99.999785% and still zero axiom, 
-
-## The Core Theorem
-
-```lean
 def SAT_Separation_Hypothesis : Prop := SAT ∉ P
 
 theorem PNP_Conditional_Resolution : SAT_Separation_Hypothesis → P ≠ NP := by
@@ -142,13 +23,60 @@ theorem PNP_Conditional_Resolution : SAT_Separation_Hypothesis → P ≠ NP := b
   have hcomplete : NP_Complete SAT := Cook_Levin_cert
   exact P_neq_NP_of_SAT_notin_P hsat hcomplete hsep
 
-#print axioms PNP_Conditional_Resolution → [propext, Classical.choice, Quot.sound
-]lake build  # Lean 4.12.0, Mathlib v4.12.0, 225 bricks, 0 sorry
-@software{fox_2026_pvsnp,
-  author = {Fox, David J.},
-  title = {P vs NP — Conditional Resolution Certificate},
-  year = {2026},
-  version = {v1.1-if-sat-notin-p-conductor-hash},
-  doi = {10.5281/zenodo.21303093},
-  url = {https://doi.org/10.5281/zenodo.21303093}
-}
+  Cook-Levin says SAT is hardest in NP. So if SAT is not fast, nothing in NP is fast.
+
+The job in Lean was to prove SAT_in_NP_cert and Cook_Levin_cert with no axioms — tableau correct by construction.
+4. ConductorHash — the prefix machine
+Towers/PvsNP/ConductorHash.lean
+
+ConductorHash S C sorts by S(v) and checks 
+sum_{i≤k} S(vi) mod p5 == 0 for all prefixes
+
+It gives an explicit chain T1 ⊂ T2 ⊂ ... ⊂ Tt = C* — each step adds one vetted element. FORCE(I,T) and CliqueExtract correct by construction — that's the mechanics side vs eutheos-property study side.
+
+• S8 = 17244 = number of functions computable with ≤8 gates • 1419 = 3×11×43 = 0x058B = 16-bit truth table, exactly 6 ones, residue 153 mod 211 • !TT8.contains 1419 via native_decide — so needs 9 gates exact, not 8 
+Density: 304/65536≈0.46% for 4-bit, 20355231/4294967296≈0.47% for 5-bit — stabilizes at 1/211 forever.
+
+Why it bypasses barriers:
+• non-large — 1/211 — fails RR largeness • prime 211>19 non-natural — fails RR constructivity • prime non-algebrizing — fails AW • specific integer non-relativizing — fails BGS 
+Then you found 34 more with same 153 mod 211, same 6-ones, same monotone lift T | T<<16 preserving 9 gates — 35 brothers.
+6. The bridge — LEFT / MIDDLE / RIGHT diagram:
+
+LEFT: T=1419 FINITE — 9 gates exact, S8=17244, density 1/211
+MIDDLE: BRIDGE — α0 = 299 + π/10, block = frac(p·α0)·2^32
+        T_star_N = concat N/32 blocks
+        134M bits: only 9 collisions → density 99.999785% →1
+        Andreev lift: N^{1.01} → N²/log⁴, n12: 101k>62k first green, n27: 52T>4.5B 14383×
+RIGHT: KÖNIG INFINITE — κ < κ^{cf κ}, 2^N functions vs N circuits
+
+• König says there are way more functions 2^N than small circuits N^c — so some function must be hard, but not which. • You make it constructive: T=1419 explicit. • Dirichlet bridge: frac(p·α0) with irrational α0=299+π/10 spreads uniformly, so T_star_N is almost all random but built from 1419. Hard for Lean because needs real analysis, mpmath 30 dps. • Andreev lift: L' = L·2^n/n turns 9-gate base into N²/log⁴ hardness.
+
+We looked at number 1419 because of N=143 as conductor as such this machine is built of p5 as hash prime andp primeset 2,3,19,191.
+
+1419 = 3 × 11 × 43
+     = 0x058B
+     = 0000 0101 1000 1011 binary — exactly 6 ones — popcount 6
+     mod 211 = 153
+     
+P(collision) ≈ 9/4M = 2e-6
+
+In these repos 1419 is not a number, it's a 4-bit truth table — 16 rows, 6 ones. Function T.
+
+lake build — Lean 4.12.0, Mathlib v4.12.0, 225 bricks, 0 sorry
+
+19 Repo Site Map — Opera Numerorum
+Root & Core:
+• arakelov-positivity-rh-core — ROOT V2 — M2 kappa, M7 Manifest, M8C Zoe-M*, M4 10^4000 
+Four Voices — RH — Same S₄={2,3,19,191} C=11.422>2√13:
+• riemann-arakelov-positivity — Route A Act I — ω²=48/13>0 • arakelov-rh-descent — Route B Act II — λ₁≥975/4096 35pp BC6 • rh-growth-contradiction — Route C Act III — Growth contradiction • brothers-desert-proof — Route D Act IV — 35 brothers self-symmetry 
+Keystone & Sieve:
+• rh-p5-bridge-14 — Keystone — q5=226 q6=165849 cf_bound=82829 — grh_to_rh_descent • opera-sieve — methodology.py datatables S_14 S_alpha0 
+Arithmetic — BSD & Lindelof — Level 143:
+• birch-swinnerton-dyer-143a1 — BSD 143a1 • lindelof-hypothesis-143 — Lindelof X₀(143) • eutheos-property — Study of 1419 — FINAL v2.0 — companion to THIS repo 
+This repo — P vs NP:
+• p-vs-np — THIS — 225 bricks — Conditional compiler — mechanics side 
+Other Clay — Same Conductor Philosophy:
+• poincare-spectral — Poincaré • bost-connes — Bost-Connes phase transition C(S) • hodge-abelian-boundaries — Hodge — 200 abelian 390 total • yang-mills-gap — Yang-Mills • navier-stokes — Navier-Stokes — 1/10 factor same as h(-143)=10 
+Systems:
+• morningstar-project — Quantum entangled orbital spacestation • zerobeacon — BRAIN — 1000 tools collision-free-swarming • pistus-theoria — ARCHIVE — pdf server + oracle + cert house — OperaNumerorum_MasterEquations.pdf SHA 7f6b31b4... m4.out = Complete: True 
+ORCID: 0009-0008-1290-6105 — Brain: zerobeacon — Archive: pistus-theoria
