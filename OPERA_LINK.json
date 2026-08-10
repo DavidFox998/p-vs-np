@@ -1,0 +1,40 @@
+
+**And `OPERA_LINK.json` clean — no RH, only mechanics + companion:**
+
+```json
+{
+  "repo": "p-vs-np",
+  "url": "https://github.com/DavidFox998/p-vs-np",
+  "opera_pos": "12/19 — P vs NP Conditional Compiler — 225 bricks MANIFEST LOCKED — Mechanics side",
+  "status": "v1.1-if-sat-notin-p-conductor-hash 0 sorry [propext, Classical.choice, Quot.sound]",
+  "conductor": "N=143 phi=120 g=13 h=10 p5=3993746143633 — Conductor.lean",
+  "companion": {
+    "eutheos_property": "https://github.com/DavidFox998/eutheos-property — Study of 1419 — FINAL v2.0 Lean 100% — EUTHEOS=1419=3*11*43 exact 9 gates S8=17244 !TT8.contains 1419 density 1/211 forever non-large non-natural non-algebrizing — Template for ConductorHash via p5",
+    "note": "This repo does NOT contain 1419 — it contains ConductorHash that uses p5 — 1419 study lives in eutheos-property — mechanics vs study"
+  },
+  "towers": "11 + Seal — Common PvsNP BSD Approximation Computability Continuum Interactive Probabilistic Space ZFC ZProtocol Seal — full index Towers/README.md",
+  "site_map_19": [
+    "https://github.com/DavidFox998/arakelov-positivity-rh-core",
+    "https://github.com/DavidFox998/riemann-arakelov-positivity",
+    "https://github.com/DavidFox998/arakelov-rh-descent",
+    "https://github.com/DavidFox998/rh-growth-contradiction",
+    "https://github.com/DavidFox998/brothers-desert-proof",
+    "https://github.com/DavidFox998/birch-swinnerton-dyer-143a1",
+    "https://github.com/DavidFox998/lindelof-hypothesis-143",
+    "https://github.com/DavidFox998/eutheos-property",
+    "https://github.com/DavidFox998/rh-p5-bridge-14",
+    "https://github.com/DavidFox998/poincare-spectral",
+    "https://github.com/DavidFox998/bost-connes",
+    "https://github.com/DavidFox998/p-vs-np",
+    "https://github.com/DavidFox998/hodge-abelian-boundaries",
+    "https://github.com/DavidFox998/yang-mills-gap",
+    "https://github.com/DavidFox998/navier-stokes",
+    "https://github.com/DavidFox998/morningstar-project",
+    "https://github.com/DavidFox998/opera-sieve",
+    "https://github.com/DavidFox998/pistus-theoria",
+    "https://github.com/DavidFox998/zerobeacon"
+  ],
+  "brain": "https://github.com/DavidFox998/zerobeacon",
+  "archive": "https://github.com/DavidFox998/pistus-theoria",
+  "orcid": "0009-0008-1290-6105"
+}
