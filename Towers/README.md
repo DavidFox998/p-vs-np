@@ -40,8 +40,6 @@ ZProtocol (OPEN/CERT/CLAIM, 0 sorry enforcement) → CI green for all towers
 
 ---
 
-## For Layperson — What Are These 11?
-
 Think of P vs NP as a mountain. Each tower is a route that tried to climb it and found a wall.
 
 - **Common** — toolbox: numbers 143, 120, 10, huge prime 3.9T that all routes share
@@ -60,7 +58,7 @@ Together they formalize all known approaches to P vs NP and why they fail — ex
 
 ---
 
-## For Referee — Methodology Summary
+Methodology Summary
 
 - **Axiom-free first:** `BStr := List Bool`, `Language := Set BStr`, `InP`, `InNP` defined via `HasPolyTimeDecider/Verifier` — no handwaving
 - **Concrete bounds via `native_decide`:** tableau `32^1` → `10240 ≤ 1048576` (P⊆P/poly non-trivial), `phi_143=120`, `p5=3993746143633`, `h=10`, `S8=17244` functions with ≤8 gates
