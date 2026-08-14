@@ -35,17 +35,21 @@ theorem PNP_Conditional_Resolution : SAT_Separation_Hypothesis → P ≠ NP := b
 
 #print axioms PNP_Conditional_Resolution
 -- [propext, Classical.choice, Quot.sound]
+```
 
 Cook-Levin says SAT is hardest in NP. If SAT not fast, nothing in NP fast.
-4. ConductorHash — prefix machine
-Towers/PvsNP/ConductorHash.lean
 
-ConductorHash S C sorts by S(v) and checks sum_{i≤k} S(vi) mod p5 == 0 for all prefixes — chain T1⊂T2⊂...⊂Tt=C* — FORCE(I,T) and CliqueExtract correct by construction. Mechanics side — study side is
+## 4. ConductorHash — prefix machine
 
-5. 1419 — seed that lives in eutheos-property
-1419 = 3×11×43 = 0x058B = 0000 0101 1000 1011 binary 6 ones popcount 6 mod 211=153 — 4-bit truth table 16 rows.
+`Towers/PvsNP/ConductorHash.lean`
 
-Companion: eutheos-property — FINAL v2.0 Lean 100% — Study of 1419 — 35 brothers 35/211=16.5% 99.999976% distinct (9/4M)^35≈10^-197 — Barriers PASS.
+`ConductorHash S C` sorts by `S(v)` and checks `sum_{i≤k} S(vi) mod p5 == 0` for all prefixes — chain `T1⊂T2⊂...⊂Tt=C*` — `FORCE(I,T)` and `CliqueExtract` correct by construction. Mechanics side — study side is **[eutheos-property](https://github.com/DavidFox998/eutheos-property)**.
+
+## 5. 1419 — seed that lives in eutheos-property
+
+`1419 = 3×11×43 = 0x058B = 0000 0101 1000 1011` binary · 6 ones · popcount 6 · mod 211=153 — 4-bit truth table 16 rows.
+
+Companion: **[eutheos-property](https://github.com/DavidFox998/eutheos-property)** — FINAL v2.0 Lean 100% — Study of 1419 — 35 brothers `35/211=16.5%` · `99.999976%` distinct · `(9/4M)^35≈10^-197` — Barriers PASS.
 
 Mechanics lives here, study lives there.
 
