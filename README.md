@@ -1,5 +1,8 @@
 # P vs NP — Conditional Compiler + ConductorHash — 225 bricks — Mechanics side
 
+> **Opera Numerorum ensemble** — 19 repos · chain `7472f4e5` · [REPOS.md →](https://github.com/DavidFox998/rh-p5-bridge-14/blob/main/REPOS.md)
+
+
 **N=143=11×13 phi=120 g=13 h=10 p5=3993746143633 S₄={2,3,19,191} — ORCID 0009-0008-1290-6105**
 
 Lean 4.15.0 / Mathlib v4.15.0 | 0 sorry in core | `[propext, Classical.choice, Quot.sound]`
