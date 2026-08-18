@@ -42,8 +42,8 @@ Final/ClayFinalUnifiedClean.lean ← the unified certificate
 MACHINE (you are here)          → ANSWER
 p-vs-np                         → eutheos-property
 
-CHAIN SHA256 (all 12 repos locked 2026-08-05):
-c79c94e7676a10b1cfb5afc75b7346b9b5b8589dee9b679db230ba3b8034e6d1
+CHAIN SHA256 (all 19 repos locked 2026-08-15):
+f39ed9a9bd7cc02c6cf415f40b3faaa3c627a5a0d53621766466f31a2211e7ce
 See CHAIN.md for all 12 repo HEADs.
 ```
 
