@@ -1,6 +1,6 @@
 {
-  "title": "P vs NP — Conditional Resolution Certificate",
-  "description": "Formal Lean 4 certificate for the Clay Millennium P vs NP problem. Proves the complete conditional result: IF SAT ∉ P THEN P ≠ NP. Formalizes P, NP, Cook-Levin, time hierarchy, and all three barriers: Relativization (BGS 1975), Natural Proofs (RR 1994), Algebrization (AW 2009). 223 theorems. 0 sorry. 0 axiom. The separation hypothesis SAT ∉ P remains as the sole assumption. Part of Theorema Aureum 143 / Morning Star Project.",
+  "title": "P vs NP \u2014 Conditional Resolution Certificate",
+  "description": "Formal Lean 4 certificate for the Clay Millennium P vs NP problem. Proves the complete conditional result: IF SAT \u2209 P THEN P \u2260 NP. Formalizes P, NP, Cook-Levin, time hierarchy, and all three barriers: Relativization (BGS 1975), Natural Proofs (RR 1994), Algebrization (AW 2009). 223 theorems. 0 sorry. 0 axiom. The separation hypothesis SAT \u2209 P remains as the sole assumption. Part of Opera Numerorum.",
   "creators": [
     {
       "name": "Fox, David J.",
@@ -8,8 +8,9 @@
       "affiliation": "Opera Numerorum"
     }
   ],
-  "license": "apache-2.0",
+  "license": "Apache-2.0",
   "upload_type": "software",
+  "access_right": "open",
   "keywords": [
     "p-vs-np",
     "complexity-theory",
@@ -20,7 +21,7 @@
     "relativization",
     "natural-proofs",
     "algebrization",
-    "theorema-aureum-143"
+    "opera-numerorum"
   ],
   "related_identifiers": [
     {
@@ -29,11 +30,5 @@
       "resource_type": "software"
     }
   ],
-  "communities": [
-    {
-      "identifier": "lean"
-    }
-  ],
-  "version": "v1.0-pnp-conditional-certificate",
-  "language": "lean"
+  "version": "v1.0-pnp-conditional-certificate"
 }
