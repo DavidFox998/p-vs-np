@@ -10,7 +10,7 @@ Lean 4.15.0 / Mathlib v4.15.0 | 0 sorry in core | `[propext, Classical.choice, Q
 ## 1. Constants — why 143
 
 - `Towers/Common/Conductor.lean` — `S₄={2,3,19,191}` lives here as exceptional primes
-- `N=143=11×13` — conductor `phi=120` — 120-cell — `g=13` genus `X₀143` — `h=10` `h(-143)=10` — `p5=3993746143633` boundary hash prime — this is why this repo discovered the 35 brothers family in its companion
+- `N=143=11×13` — conductor `phi=120` — 120-cell — `g=13` genus `X₀143` — `h=10` `h(-143)=10` — `p5=3993746143633` boundary hash prime — these constants reappear in every voice of the Opera
 
 ## 2. 11 Towers + Seal — cathedral
 
@@ -19,7 +19,7 @@ Lean 4.15.0 / Mathlib v4.15.0 | 0 sorry in core | `[propext, Classical.choice, Q
 | Common | Conductor library | `phi=120,g=13,h=10,p5` |
 | PvsNP | Definitions + compiler + ConductorHash | `SAT∉P→P≠NP` + chain `T1⊂...⊂Tt=C*` |
 | Computability | Turing machines | Halting undecidable, tableau `32 1=10240 ≤1048576` `native_decide` |
-| PvsNP barriers | Kill bad techniques | BGS 1975 relativization, RR 1994 natural proofs, AW 2009 algebrization |
+| PvsNP barriers | Formalize the three known obstacles | BGS 1975 relativization, RR 1994 natural proofs, AW 2009 algebrization |
 | Space / Probabilistic / Interactive | Complexity classes | Savitch `NL=coNL`, `BPP⊆P/poly`, `IP=PSPACE` sum-check |
 | Continuum | Infinite pigeonhole | König `κ < κ^{cf κ}` |
 | Seal | Honesty | SHA256 seal, MANIFEST LOCKED, 0 sorry CI |
@@ -52,11 +52,11 @@ Cook-Levin says SAT is hardest in NP. If SAT not fast, nothing in NP fast.
 
 `1419 = 3×11×43 = 0x058B = 0000 0101 1000 1011` binary · 6 ones · popcount 6 · mod 211=153 — 4-bit truth table 16 rows.
 
-Companion: **[eutheos-property](https://github.com/DavidFox998/eutheos-property)** — FINAL v2.0 Lean 100% — Study of 1419 — 35 brothers `35/211=16.5%` · `99.999976%` distinct · `(9/4M)^35≈10^-197` — Barriers PASS.
+The barrier machinery formalized here raises a concrete question: does any arithmetic object bypass BGS relativization, RR natural proofs, and AW algebrization simultaneously? The answer is yes — 1419 is such an object. Its study is formalized in **[eutheos-property](https://github.com/DavidFox998/eutheos-property)**: 35 brothers all satisfying the same barrier-bypass property P, arising 24× over uniform expectation, certified by `native_decide`.
 
-Mechanics lives here, study lives there.
+The chain continues: those 35 brothers form the discrete self-symmetry lattice at the heart of **[brothers-desert-proof](https://github.com/DavidFox998/brothers-desert-proof)** (Route D, Act IV), where their orbit structure mod 191 and mod 36863 closes the fourth independent RH proof. The barrier framework defined here is the starting point of that entire three-repo chain.
 
-## Opera Numerorum — 16 repos
+## Opera Numerorum — 19 repos
 
 **[arakelov-positivity-rh-core](https://github.com/DavidFox998/arakelov-positivity-rh-core) — ROOT V2** — Arakelov height `ω²=48/13>0`; Zoe-M\*, M4 10^4000 boundary — provides the height input that all four RH voices reuse
 
@@ -68,7 +68,7 @@ Mechanics lives here, study lives there.
 
 **[rh-growth-contradiction](https://github.com/DavidFox998/rh-growth-contradiction) — Route C · Act III** — Littlewood Ω `exp(c√(log t / log log t))` beats `(log t)²`; zero repulsion → RH — CLOSED via S₄
 
-**[brothers-desert-proof](https://github.com/DavidFox998/brothers-desert-proof) — Route D · Act IV** — Dirichlet jitter `‖p·α₀‖<1/p`, 35 brothers collision-free swarming; orbit stability forces `Re=1/2` — CLOSED via S₄
+**[brothers-desert-proof](https://github.com/DavidFox998/brothers-desert-proof) — Route D · Act IV** — 35 Morningstar brothers, distinct mod 191 and mod 36863, certified empty desert; orbit stability forces `Re(ρ)=1/2` — CLOSED via S₄
 
 **[bost-connes](https://github.com/DavidFox998/bost-connes) — Arithmetic hub** — `C(S₄)=11.422...>2√13`, Gates M1–M3→M4–M8, 21 bricks 0 sorry — #173 GREEN
 
@@ -76,11 +76,11 @@ Mechanics lives here, study lives there.
 
 **[lindelof-hypothesis-143](https://github.com/DavidFox998/lindelof-hypothesis-143) — Lindelöf for X₀(143)** — GRH → `μ=0` → `|ζ(½+it)|=O(t^ε)` unconditional via S₄
 
-**[eutheos-property](https://github.com/DavidFox998/eutheos-property) — Barrier bypass** — `1419=3×11×43`, 35 brothers `≡153 mod 211`, barriers BGS/RR/AW all PASS — P vs NP study side
+**[eutheos-property](https://github.com/DavidFox998/eutheos-property) — Barrier bypass** — `1419=3×11×43`, 35 brothers `≡153 mod 211`, barriers BGS/RR/AW all PASS — study side companion to this repo
 
 **[poincare-spectral](https://github.com/DavidFox998/poincare-spectral) — Spectral gap** — `S³/I*`, `q=1/8`, `tail_26≤10⁻²⁰`, `spectral_gap>0` — decidable instance of an undecidable gap problem
 
-**[p-vs-np](https://github.com/DavidFox998/p-vs-np) — P vs NP mechanics** ← **this repo** — 225 bricks, ConductorHash, conditional `SAT∉P→P≠NP` — Eutheos property as barrier bypass
+**[p-vs-np](https://github.com/DavidFox998/p-vs-np) — P vs NP mechanics** ← **this repo** — 225 bricks, ConductorHash, conditional `SAT∉P→P≠NP`; barrier framework that led to 1419 and the 35-brother family
 
 **[hodge-abelian-boundaries](https://github.com/DavidFox998/hodge-abelian-boundaries) — Hodge obstructions** — 200 measured rank obstructions for `g=3,4,5`; `observed_rank>criterionBound` for each
 
@@ -94,9 +94,8 @@ Mechanics lives here, study lives there.
 
 ORCID: [0009-0008-1290-6105](https://orcid.org/0009-0008-1290-6105) · Archive: [pistus-theoria](https://github.com/DavidFox998/pistus-theoria) — `OperaNumerorum_MasterEquations.pdf SHA 7f6b31b4`
 **Ensemble:** `sha256:e1617bc96018da4577f153f2e0cd8cc4eda1183434a9624b6cefaedc655db6c5` · hub [`rh-p5-bridge-14`](https://github.com/DavidFox998/rh-p5-bridge-14) · anchor `d04e4bd1`
+
 ## Author
 
 David J. Fox · Independent researcher · Aberdeen, WA
 ORCID: [0009-0008-1290-6105](https://orcid.org/0009-0008-1290-6105) · Opera Numerorum — 2026
-
-```
