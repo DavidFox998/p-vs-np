@@ -1,28 +1,25 @@
 {
-  "title": "P vs NP \u2014 Conditional Resolution Certificate",
-  "description": "Formal Lean 4 certificate for the Clay Millennium P vs NP problem. Proves the complete conditional result: IF SAT \u2209 P THEN P \u2260 NP. Formalizes P, NP, Cook-Levin, time hierarchy, and all three barriers: Relativization (BGS 1975), Natural Proofs (RR 1994), Algebrization (AW 2009). 223 theorems. 0 sorry. 0 axiom. The separation hypothesis SAT \u2209 P remains as the sole assumption. Part of Opera Numerorum.",
+  "title": "P versus NP — Conditional Resolution Certificate",
+  "upload_type": "software",
+  "description": "Lean 4 formalization of the formal certificate for the conditional implication SAT ∉ P → P ≠ NP, together with its explicitly recorded computational-complexity hypothesis. This repository is part of David Fox's Opera Numerorum ensemble.",
   "creators": [
     {
-      "name": "Fox, David J.",
-      "orcid": "0009-0008-1290-6105",
-      "affiliation": "Opera Numerorum"
+      "name": "Fox, David",
+      "affiliation": "Opera Numerorum",
+      "orcid": "0009-0008-1290-6105"
     }
   ],
-  "license": "Apache-2.0",
-  "upload_type": "software",
-  "access_right": "open",
+  "license": "MIT",
   "keywords": [
-    "p-vs-np",
-    "complexity-theory",
-    "lean4",
-    "formal-verification",
-    "millennium-prize",
-    "cook-levin",
-    "relativization",
-    "natural-proofs",
-    "algebrization",
-    "opera-numerorum"
+    "P versus NP",
+    "computational complexity",
+    "SAT",
+    "conditional proof",
+    "Lean 4",
+    "formal verification",
+    "Opera Numerorum"
   ],
+  "access_right": "open",
   "related_identifiers": [
     {
       "identifier": "https://github.com/DavidFox998/p-vs-np",
@@ -30,5 +27,10 @@
       "resource_type": "software"
     }
   ],
-  "version": "v1.0-pnp-conditional-certificate"
+  "communities": [
+    {
+      "identifier": "lean"
+    }
+  ],
+  "language": "en"
 }
