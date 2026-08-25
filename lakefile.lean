@@ -2,7 +2,6 @@ import Lake
 open Lake DSL
 
 package «p-vs-np» where
-  name := "p-vs-np"
 
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "v4.12.0"
