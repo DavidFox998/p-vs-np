@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22049027.svg)](https://doi.org/10.5281/zenodo.22049027) [![CI](https://github.com/DavidFox998/p-vs-np/actions/workflows/manifest-locked.yml/badge.svg)](https://github.com/DavidFox998/p-vs-np/actions/workflows/manifest-locked.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22049027.svg)](https://doi.org/10.5281/zenodo.22049027) [![Lean proof build](https://github.com/DavidFox998/p-vs-np/actions/workflows/lean.yml/badge.svg)](https://github.com/DavidFox998/p-vs-np/actions/workflows/lean.yml)
 
 # P vs NP — Conditional Compiler + ConductorHash — 225 bricks — Mechanics side
 
