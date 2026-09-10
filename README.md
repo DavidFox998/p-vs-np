@@ -9,6 +9,14 @@
 
 Lean 4.15.0 / Mathlib v4.15.0 | 0 sorry in core | `[propext, Classical.choice, Quot.sound]`
 
+## 0. The three-repo flow — scaffold → witness → route
+
+This repo is the **scaffold**: it formalizes the three known barriers (BGS relativization, RR natural proofs, AW algebrization) and the ConductorHash machine, then asks whether any arithmetic object bypasses all three at once. The answer lives downstream:
+
+1. **[p-vs-np](https://github.com/DavidFox998/p-vs-np) — this repo (scaffold).** Barriers + ConductorHash + conditional `SAT∉P→P≠NP` across 11 towers, 225 bricks.
+2. **[eutheos-property](https://github.com/DavidFox998/eutheos-property) — witness.** `1419 = 3×11×43` (`0x058B`, popcount 6, residue 153 mod 211) with exact circuit complexity 9 (`native_decide`), generating a 35-element family — barrier bypass study side.
+3. **[brothers-desert-proof](https://github.com/DavidFox998/brothers-desert-proof) — route.** The same 35 brothers become the discrete self-symmetry lattice of Route D, a Lean-verified conditional reduction toward RH (RH remains OPEN).
+
 ## 1. Constants — why 143
 
 - `Towers/Common/Conductor.lean` — `S₄={2,3,19,191}` lives here as exceptional primes
